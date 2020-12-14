@@ -1,0 +1,2100 @@
+%% ====================================================================
+%%  Diagrammatic categorification - drawing diagrams
+%%  author: Krzysztof Putyra
+%% ====================================================================
+%%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{diagcat}[2012/02/12 Version 0.5, Feb 12, 2012]
+%%
+\message{`String diagrams', v 0.5, Feb 12, 2012 (c) Krzysztof Putyra}
+%%
+\RequirePackage{pstricks}		% Drawing commands
+\RequirePackage{fp}				% Calculus of (almost) reals
+\RequirePackage{calc}
+%%
+\FPmessagesfalse
+\makeatletter
+%% ==========================================
+%%  Module: KRS-basic
+%% ==========================================
+\newif\ifKRSmessages
+\def\KRSmessage{\@ifnextchar\KRS@lsq{\KRS@message}{\KRS@message[A]}}
+\def\KRS@message[#1]#2{%
+	\ifKRSmessages\KRSswitchx{#1}%
+		\case{B}{\message{(KRS: #2}}%
+		\case{E}{\message{#2)^^J}}%
+		\default{\message{(KRS: #2)}}%
+	\KRSendswitch\fi
+}
+\KRSmessagesfalse
+\let\KRS@lsq[	\let\KRS@rsq]
+\let\KRS@lbr(	\let\KRS@rbr)
+\let\KRS@x\expandafter
+\def\KRS@nox#1{\noexpand#1}%
+\def\KRS@xx{\expandafter\expandafter\expandafter}
+\def\KRS@xsec#1{\expandafter#1\expandafter}
+\def\KRS@xtrd#1#2{\expandafter#1\expandafter#2\expandafter}
+\def\KRS@xfth#1#2#3{\expandafter#1\expandafter#2\expandafter#3\expandafter}
+\def\KRS@xtwo#1{\expandafter\expandafter\expandafter#1\expandafter}
+\def\KRS@xthr#1#2{\expandafter\expandafter\expandafter\expandafter\expandafter#1\expandafter\expandafter\expandafter#2\expandafter}
+\def\KRS@n#1{\csname#1\endcsname}
+\def\KRS@xn#1#2{\expandafter#1\csname#2\endcsname}
+\def\KRS@xne#1#2{\expandafter\expandafter\expandafter#1\csname#2\endcsname}
+\def\KRS@xxn#1#2#3{\expandafter#1\expandafter#2\csname#3\endcsname}
+\def\KRS@gobbleto#1{%
+	\def\KRS@act##1#1{}%
+	\KRS@act
+}
+\def\KRS@after#1#2{%
+	\def\KRS@act##1#1{#2}%
+	\KRS@act
+}
+\def\KRS@afternil#1#2\@nil{#1}
+\def\KRS@afternnil#1#2\@nnil{#1}
+\def\KRS@gobbletonil#1\@nil{}
+\def\KRS@gobbletonnil#1\@nnil{}
+\def\KRS@getarg#1#2{\if\relax\noexpand#2\else\KRS@x\KRS@xn\fi#1{#2}}
+\def\KRS@gettwo#1#2#3{%
+	\edef\KRS@act{\noexpand#1\KRS@getarg\KRS@nox{#2}\KRS@getarg\KRS@nox{#3}}%
+	\KRS@act
+}
+\def\KRS@getthree#1#2#3#4{%
+	\edef\KRS@act{\noexpand#1\KRS@getarg\KRS@nox{#2}\KRS@getarg\KRS@nox{#3}\KRS@getarg\KRS@nox{#4}}%
+	\KRS@act
+}
+\def\KRSifand#1#2{#1{#2}{\@secondoftwo}}
+\def\KRSifor#1#2{#1{\@firstoftwo}{#2}}
+\def\KRSifnot#1{#1{\@secondoftwo}{\@firstoftwo}}
+\def\KRS@ifdef#1{%
+	\KRS@x\ifx\csname #1\endcsname\relax
+		\KRS@x\@secondoftwo
+	\else
+		\KRS@x\@firstoftwo
+	\fi
+}
+\def\KRS@ifndef#1{%
+	\KRS@x\ifx\csname#1\endcsname\relax
+		\KRS@x\@firstoftwo
+	\else
+		\KRS@x\@secondoftwo
+	\fi
+}
+\def\KRS@ifempty#1{%
+	\ifx#1\@empty
+		\KRS@x\@firstoftwo
+	\else
+		\KRS@x\@secondoftwo
+	\fi
+}
+\def\KRS@ifnempty#1{%
+	\ifx#1\@empty
+		\KRS@x\@secondoftwo
+	\else
+		\KRS@x\@firstoftwo
+	\fi
+}
+\def\KRS@ifin#1#2{%
+	\let\KRS@act\@secondoftwo
+	\@tfor\KRS@rega:=#2\do{%
+		\KRS@x\ifx\KRS@rega#1\relax
+			\let\KRS@act\@firstoftwo
+			\@break@tfor
+		\fi
+	}%
+	\KRS@act
+}
+\def\KRSifempty#1{%
+	\def\KRS@rega{#1}%
+	\KRS@ifempty\KRS@rega
+}
+\def\KRSifnempty#1{%
+	\def\KRS@rega{#1}%
+	\KRS@ifnempty\KRS@rega
+}
+\def\KRSifstrempty#1{%
+	\edef\KRS@rega{#1}%
+	\KRS@ifempty\KRS@rega
+}
+\def\KRSifstrnempty#1{%
+	\edef\KRS@rega{#1}%
+	\KRS@ifnempty\KRS@rega
+}
+\def\KRSifstreq#1#2{%
+	\edef\KRS@rega{#1}%
+	\edef\KRS@regb{#2}%
+	\ifx\KRS@rega\KRS@regb
+		\KRS@x\@firstoftwo
+	\else
+		\KRS@x\@secondoftwo
+	\fi
+}
+\def\KRSifstrneq#1#2{%
+	\edef\KRS@rega{#1}%
+	\edef\KRS@regb{#2}%
+	\ifx\KRS@rega\KRS@regb
+		\KRS@x\@secondoftwo
+	\else
+		\KRS@x\@firstoftwo
+	\fi
+}
+\def\KRSifstrin#1#2{%
+	\let\KRS@act\@secondoftwo
+	\edef\KRS@rega{#1}%
+	\@tfor\KRS@regb:=#2\do{%
+		\ifx\KRS@rega\KRS@regb
+			\let\KRS@act\@firstoftwo
+			\@break@tfor
+		\fi
+	}%
+	\KRS@act
+}
+\def\KRSswitch#1#2{%
+	\def\KRS@rega{#2}%
+	\ifx\KRS@case\KRS@rega\def\KRS@act{\KRSswitch@try{#1}}%
+	\else\ifx\KRS@default\KRS@rega\let\KRS@act\KRSswitch@do
+	\else\ifx\KRS@endswitch\KRS@rega\let\KRS@act\relax
+	\else\def\KRS@act{\KRSswitch@err{#2}{str}}%
+	\fi\fi\fi
+	\KRS@act
+}
+\def\KRSswitchx#1#2{%
+	\def\KRS@rega{#2}%
+	\ifx\KRS@case\KRS@rega\def\KRS@act{\KRSswitchx@try{#1}}%
+	\else\ifx\KRS@default\KRS@rega\let\KRS@act\KRSswitch@do
+	\else\ifx\KRS@endswitch\KRS@rega\let\KRS@act\relax
+	\else\def\KRS@act{\KRSswitch@err{#2}{x}}%
+	\fi\fi\fi
+	\KRS@act
+}
+\def\KRS@case{\case}
+\def\KRS@default{\default}
+\def\KRS@endswitch{\KRSendswitch}
+\def\KRSswitch@try#1#2{%
+	\KRSswitch@@try{#1}#2,\@nil
+}
+\def\KRSswitch@@try#1#2,#3\@nil#4{%
+	\KRSifstreq{#1}{#2}{%
+		\KRSswitch@do{#4}%
+	}{%
+		\KRSifstrempty{#3}%
+			{\KRSswitch{#1}}%
+			{\KRSswitch@@try{#1}#3\@nil{#4}}%
+	}%
+}
+\def\KRSswitchx@try#1#2{%
+	\KRSswitchx@@try{#1}#2,\@nil
+}
+\def\KRSswitchx@@try#1#2,#3\@nil#4{%
+	\def\KRS@rega{#1}%
+	\def\KRS@regb{#2}%
+	\ifx\KRS@rega\KRS@regb\KRS@x\@firstoftwo\else\KRS@x\@secondoftwo\fi{%
+		\KRSswitch@do{#4}%
+	}{%
+		\def\KRS@rega{#3}%
+		\KRS@ifempty\KRS@rega
+			{\KRSswitchx{#1}}%
+			{\KRSswitchx@@try{#1}#3\@nil{#4}}%
+	}%
+}
+\def\KRSswitch@do#1#2\KRSendswitch{#1}
+\def\KRSswitch@err#1#2#3\KRSendswitch{%
+	\PackageWarning{KRS}{Unknown token \string#1 in \string\KRSswitch{#2}}%
+}
+%% ==========================================
+%%  Module: KRS-fp
+%% ==========================================
+\newif\ifKRSnum@intmode
+\def\KRSifint#1{%
+	\edef\KRS@rega{#1}%
+	\ifx\KRS@rega\@empty\KRS@x\@thirdofthree\else\KRS@x\@firstofone\fi
+	{\KRSnum@intmodetrue\KRS@x\KRSnum@ifnum\KRS@rega\@nnil}%
+}
+\def\KRSifnum#1{%
+	\edef\KRS@rega{#1}%
+	\ifx\KRS@rega\@empty\KRS@x\@thirdofthree\else\KRS@x\@firstofone\fi
+	{\KRSnum@intmodefalse\KRS@x\KRSnum@ifnum\KRS@rega\@nnil}%
+}
+\def\KRSnum@ifnum#1{%
+	\ifx#1+\relax
+		\let\KRS@act\KRSnum@if@num
+	\else\ifx#1-\relax
+		\let\KRS@act\KRSnum@if@num
+	\else\ifx#1\@nnil
+		\let\KRS@act\@secondoftwo
+	\else
+		\def\KRS@act{\KRSnum@if@num#1}%
+	\fi\fi\fi
+	\KRS@act
+}
+\def\KRSnum@if@num#1{%
+	\def\KRS@act{\KRS@x\@secondoftwo\KRS@gobbletonnil}%
+	\ifx#1\@nnil
+		\let\KRS@act\@firstoftwo
+	\else
+		\ifx#1.\relax
+			\ifKRSnum@intmode\else
+				\let\KRS@act\KRSnum@if@num
+				\KRSnum@intmodetrue
+			\fi
+		\else\ifnum`#1>47\relax\ifnum`#1<58\relax
+			\let\KRS@act\KRSnum@if@num
+		\fi\fi\fi
+	\fi
+	\KRS@act
+}
+\def\KRSifzero#1{\FPifzero{#1}\KRS@x\@firstoftwo\else\KRS@x\@secondoftwo\fi}
+\def\KRSifneg#1{\FPifneg{#1}\KRS@x\@firstoftwo\else\KRS@x\@secondoftwo\fi}
+\def\KRSifpos#1{\FPifgt{#1}{0}\KRS@x\@firstoftwo\else\KRS@x\@secondoftwo\fi}
+\def\KRSifnzero#1{\FPifzero{#1}\KRS@x\@secondoftwo\else\KRS@x\@firstoftwo\fi}
+\def\KRSifnneg#1{\FPifneg{#1}\KRS@x\@secondoftwo\else\KRS@x\@firstoftwo\fi}
+\def\KRSifnpos#1{\FPifgt{#1}{0}\KRS@x\@secondoftwo\else\KRS@x\@firstoftwo\fi}
+\def\KRSifsamesigns#1#2{%
+	\KRSifzero{#1}%
+		{\KRSifzero{#2}}%
+		{\KRSifpos{#1}%
+			{\KRSifpos{#2}}%
+			{\KRSifneg{#2}}%
+		}%
+}
+\def\KRSifdiffsigns#1#2{%
+	\KRSifzero{#1}%
+		{\KRSifnzero{#2}}%
+		{\KRSifpos{#1}%
+			{\KRSifnpos{#2}}%
+			{\KRSifnneg{#2}}%
+		}%
+}
+\def\KRSifeq#1#2{\FPifeq{#1}{#2}\KRS@x\@firstoftwo\else\KRS@x\@secondoftwo\fi}
+\def\KRSifneq#1#2{\FPifeq{#1}{#2}\KRS@x\@secondoftwo\else\KRS@x\@firstoftwo\fi}
+\def\KRSifgt#1#2{\FPifgt{#1}{#2}\KRS@x\@firstoftwo\else\KRS@x\@secondoftwo\fi}
+\def\KRSifge#1#2{\FPiflt{#1}{#2}\KRS@x\@secondoftwo\else\KRS@x\@firstoftwo\fi}
+\def\KRSiflt#1#2{\FPiflt{#1}{#2}\KRS@x\@firstoftwo\else\KRS@x\@secondoftwo\fi}
+\def\KRSifle#1#2{\FPifgt{#1}{#2}\KRS@x\@secondoftwo\else\KRS@x\@firstoftwo\fi}
+\def\KRSifbetween#1#2#3{%
+	\KRSifle{#2}{#3}%
+		{\KRSifge{#1}{#2}{\KRSifle{#1}{#3}}{\@secondoftwo}}%
+		{\KRSifge{#1}{#3}{\KRSifle{#1}{#2}}{\@secondoftwo}}%
+}
+\def\KRSifnbetween#1#2#3{%
+	\KRSifle{#2}{#3}%
+		{\KRSifge{#1}{#2}{\KRSifle{#1}{#3}}{\@firstoftwo}}%
+		{\KRSifge{#1}{#3}{\KRSifle{#1}{#2}}{\@firstoftwo}}%
+}
+\def\KRSsgnroot#1#2#3{%
+	\KRSifneg{#2}{%
+		\FProot{#1}{-#2}{#3}%
+		\FPneg{#1}{#1}%
+	}{%
+		\FProot{#1}{#2}{#3}%
+	}%
+}
+\def\KRS@minmax#1#2#3#4{%
+	\KRSifle#3#4{%
+		\global\let#1#3%
+		\global\let#2#4%
+	}{%
+		\global\let#1#4%
+		\global\let#2#3%
+	}%
+}
+\def\KRSlcomp#1#2#3#4{%
+	\FPmul\KRS@rega{#1}{#3}%
+	\FPadd{#4}\KRS@rega{#2}%
+}
+\def\KRSqcomp#1#2#3#4#5{%
+	\FPmul\KRS@rega{#1}{#4}%
+	\FPadd\KRS@rega\KRS@rega{#2}\FPmul\KRS@rega\KRS@rega{#4}%
+	\FPadd{#5}\KRS@rega{#3}%
+}
+\def\KRSccomp#1#2#3#4#5#6{%
+	\FPmul\KRS@rega{#1}{#5}%
+	\FPadd\KRS@rega\KRS@rega{#2}\FPmul\KRS@rega\KRS@rega{#5}%
+	\FPadd\KRS@rega\KRS@rega{#3}\FPmul\KRS@rega\KRS@rega{#5}%
+	\FPadd{#6}\KRS@rega{#4}%
+}
+\def\KRSdlcomp#1#2#3#4{%
+	\KRS@getarg\xdef{#4}{#1}%
+}
+\def\KRSdqcomp#1#2#3#4#5{%
+	\FPadd\KRS@rega{#1}{#1}%
+	\FPmul\KRS@rega\KRS@rega{#4}%
+	\FPadd{#5}\KRS@rega{#2}%
+}
+\def\KRSdccomp#1#2#3#4#5#6{%
+	\FPmul\KRS@rega{#1}{3}%
+	\FPmul\KRS@rega\KRS@rega{#5}%
+	\FPadd\KRS@regb{#2}{#2}%
+	\FPadd\KRS@rega\KRS@rega\KRS@regb\FPmul\KRS@rega\KRS@rega{#5}%
+	\FPadd{#6}\KRS@rega{#3}%
+}
+\def\KRSlsolve#1#2#3{%
+	\KRSmessage[B]{lsolve}%
+	\KRS@getarg\KRSnum@lsolve{#3}{#1}{#2}%
+	\KRSmessage[E]{}%
+}
+\def\KRSnum@lsolve#1#2#3{%
+	\KRSifzero{#2}%
+		{\global\let#1\relax}%
+		{\FPdiv#1{-#3}{#2}}%
+}
+\def\KRSqsolve#1#2#3#4#5{%
+	\KRSmessage[B]{qsolve}%
+	\KRS@gettwo\KRSnum@qsolve{#4}{#5}{#1}{#2}{#3}%
+	\KRSmessage[E]{}%
+}
+\def\KRSnum@qsolve#1#2#3#4#5{%
+	\KRSifzero{#3}{%
+		\KRSnum@lsolve#1{#4}{#5}%
+		\global\let#2\relax
+	}{\KRSifzero{#5}{%
+		\FPdiv#2{-#4}{#3}%
+		\gdef#1{0}%
+	}{%
+		\KRSnum@@qsolve#1#2{#3}{#4}{#5}%
+	}}%
+}
+\def\KRSnum@@qsolve#1#2#3#4#5{%
+	\FPmul\KRS@regb{#3}{#5}%
+	\FPmul\KRS@regb\KRS@regb{4}%
+	\FPmul\KRS@rega{#4}{#4}%
+	\FPsub\KRS@rega\KRS@rega\KRS@regb
+	\KRSifneg\KRS@rega{%
+		\global\let#1\relax
+		\global\let#2\relax
+	}{%
+		\FPadd\KRS@regc{#3}{#3}%
+		\KRSifzero\KRS@rega{%
+			\FPdiv#1{-#4}\KRS@regc
+			\global\let#2#1%
+		}{%
+			\FProot\KRS@rega\KRS@rega{2}%
+			\FPdiv\KRS@regc{1}\KRS@regc
+			\FPmul\KRS@rega\KRS@rega\KRS@regc
+			\FPmul\KRS@regb{-#4}\KRS@regc
+			\KRSifpos{#3}{%
+				\FPsub#1\KRS@regb\KRS@rega
+				\FPadd#2\KRS@regb\KRS@rega
+			}{%
+				\FPadd#1\KRS@regb\KRS@rega
+				\FPsub#2\KRS@regb\KRS@rega
+			}%
+		}%
+	}%
+}
+\def\KRScsolve#1#2#3#4#5#6#7{%
+	\KRSmessage[B]{csolve}%
+	\KRS@getthree\KRSnum@csolve{#5}{#6}{#7}{#1}{#2}{#3}{#4}%
+	\KRSmessage[E]{}%
+}
+\def\KRSnum@csolve#1#2#3#4#5#6#7{%
+	\KRSifzero{#4}{%
+		\KRSnum@qsolve#1#2{#5}{#6}{#7}%
+		\global\let#3\relax
+	}{\KRSifzero{#7}{%
+		\KRSnum@qsolve#2#3{#4}{#5}{#6}%
+		\gdef#1{0}%
+	}{%
+		\KRSnum@@csolve#1#2#3{#4}{#5}{#6}{#7}%
+	}}%
+}
+\def\KRSnum@@csolve#1#2#3#4#5#6#7{%
+	\KRSifzero{#5}{%
+		\FPadd\KRS@rega{#4}{#4}%
+		\FPdiv\KRS@regq{#7}\KRS@rega
+		\FPadd\KRS@rega\KRS@rega{#4}%
+		\FPdiv\KRS@regp{#6}\KRS@rega
+	}{%
+		\FPmul\KRS@rega{#4}{3}%
+		\FPdiv\KRS@regc{#5}\KRS@rega
+		\FPmul\KRS@regb\KRS@regc\KRS@regc
+		\FPdiv\KRS@regp{#6}\KRS@rega
+		\FPsub\KRS@regp\KRS@regp\KRS@regb
+		\FPmul\KRS@regb\KRS@regb\KRS@regc
+		\FPmul\KRS@regc\KRS@regc{#6}%
+		\FPsub\KRS@regc{#7}\KRS@regc
+		\FPadd\KRS@rega{#4}{#4}%
+		\FPdiv\KRS@regc\KRS@regc\KRS@rega
+		\FPadd\KRS@regq\KRS@regb\KRS@regc
+	}%
+	\KRSifzero\KRS@regp{%
+		\FPadd\KRS@rega\KRS@regq\KRS@regq
+		\KRSsgnroot#1\KRS@rega{3}%
+		\global\let#2\relax
+		\global\let#3\relax
+	}{%
+		\FPmul\KRS@rega\KRS@regq\KRS@regq
+		\FPmul\KRS@regd\KRS@regp\KRS@regp
+		\FPmul\KRS@regb\KRS@regd\KRS@regp
+		\FPadd\KRS@regd\KRS@regb\KRS@rega
+		\FPround\KRS@regd\KRS@regd{16}%
+		\KRSifpos\KRS@regd{%
+			\FProot\KRS@regd\KRS@regd{2}%
+			\FPneg\KRS@regq\KRS@regq
+			\FPadd\KRS@rega\KRS@regq\KRS@regd
+			\KRSsgnroot\KRS@rega\KRS@rega{3}%
+			\FPsub\KRS@regb\KRS@regq\KRS@regd
+			\KRSsgnroot\KRS@regb\KRS@regb{3}%
+			\FPadd#1\KRS@rega\KRS@regb
+			\global\let#2\relax
+			\global\let#3\relax
+		}{%
+			\KRSsgnroot\KRS@regr\KRS@regp{2}%
+			\FPmul\KRS@rega\KRS@regr\KRS@regr
+			\FPmul\KRS@rega\KRS@rega\KRS@regr
+			\FPdiv\KRS@regp\KRS@regq\KRS@rega
+			\KRSiflt\KRS@regp{-1}{%
+				\FPadd#1\KRS@regr\KRS@regr
+				\FPneg#2\KRS@regr
+				\global\let#3#2%
+			}{\KRSifgt\KRS@regp{1}{%
+				\FPadd#1{-\KRS@regr}{-\KRS@regr}%
+				\global\let#2\KRS@regr
+				\global\let#3\KRS@regr
+			}{%
+				\FParccos\KRS@rega\KRS@regp
+				\FPmul\KRS@regp\KRS@rega{0.333333333333333333}%
+				\FPsincos\KRS@rega\KRS@regb\KRS@regp
+				\FPadd\KRS@regr\KRS@regr\KRS@regr
+				\FPmul#1{-\KRS@regr}\KRS@regb
+				\FPmul\KRS@rega\KRS@rega{0.866025403784438647}%
+				\FPmul\KRS@regb\KRS@regb{0.5}%
+				\FPadd\KRS@regc\KRS@regb\KRS@rega
+				\FPmul#2\KRS@regr\KRS@regc
+				\FPsub\KRS@regc\KRS@regb\KRS@rega
+				\FPmul#3\KRS@regr\KRS@regc
+			}}%
+		}%
+	}%
+	\FPmul\KRS@rega{#4}{3}%
+	\FPdiv\KRS@rega{#5}\KRS@rega
+	\FPsub#1#1\KRS@rega
+	\ifx#2\relax\else
+		\FPsub#2#2\KRS@rega
+		\FPsub#3#3\KRS@rega
+	\fi
+}
+\def\KRSqcrit#1#2#3#4{%
+	\KRSmessage[B]{qcrit}%
+	\KRS@getarg\KRSnum@qcrit{#4}{#1}{#2}%
+	\KRSmessage[E]{}%
+}
+\def\KRSnum@qcrit#1#2#3{%
+	\FPadd\KRS@rega{#2}{#2}%
+	\KRSnum@lsolve#1\KRS@rega{#3}%
+}
+\def\KRSccrit#1#2#3#4#5#6{%
+	\KRSmessage[B]{ccrit}%
+	\KRS@gettwo\KRSnum@ccrit{#5}{#6}{#1}{#2}{#3}%
+	\KRSmessage[E]{}%
+}
+\def\KRSnum@ccrit#1#2#3#4#5{%
+	\FPmul\KRS@rega{#3}{3}%
+	\FPadd\KRS@regb{#4}{#4}%
+	\edef\KRS@act{\noexpand\KRSnum@qsolve\noexpand#1\noexpand#2{\KRS@rega}{\KRS@regb}}%
+	\KRS@act{#5}%
+}
+\def\KRSlminmax#1#2#3#4#5#6{%
+	\KRSmessage{lminmax}%
+	\KRS@gettwo\KRSnum@lminmax{#5}{#6}{#1}{#2}{#3}{#4}%
+}
+\def\KRSnum@lminmax#1#2#3#4#5#6{%
+	\KRSlcomp{#3}{#4}{#5}\KRS@regb
+	\KRSlcomp{#3}{#4}{#6}\KRS@regc
+	\KRS@minmax#1#2\KRS@regb\KRS@regc
+}
+\def\KRSqminmax#1#2#3#4#5#6#7{%
+	\KRSmessage{qminmax}%
+	\KRSifzero{#1}%
+		{\KRS@gettwo\KRSnum@lminmax{#6}{#7}{#2}{#3}{#4}{#5}}%
+		{\KRS@gettwo\KRSnum@qminmax{#6}{#7}{#1}{#2}{#3}{#4}{#5}}%
+}
+\def\KRSnum@qminmax#1#2#3#4#5#6#7{%
+	\FPadd\KRS@regb{#3}{#3}%
+	\FPdiv\KRS@rega{-#4}\KRS@regb
+	\KRSifbetween\KRS@rega{#6}{#7}{%
+		\FPmul\KRS@regc\KRS@rega{#4}%
+		\FPmul\KRS@regc\KRS@regc{0.5}%
+		\FPadd\KRS@regb{#5}\KRS@regc
+	}{%
+		\let\KRS@regb\relax
+	}%
+	\KRSqcomp{#3}{#4}{#5}{#6}\KRS@regc
+	\KRSqcomp{#3}{#4}{#5}{#7}\KRS@regd
+	\KRS@minmax#1#2\KRS@regc\KRS@regd
+	\ifx\KRS@regb\relax\else
+		\KRSiflt\KRS@regb#1{\global\let#1\KRS@regb}%
+		{\KRSifgt\KRS@regb#2{\global\let#2\KRS@regb}{}}%
+	\fi
+}
+\def\KRScminmax#1#2#3#4#5#6#7#8{%
+	\KRSmessage{cminmax}%
+	\KRSifzero{#1}{%
+		\KRSifzero{#2}%
+			{\KRS@gettwo\KRSnum@lminmax{#7}{#8}{#3}{#4}{#5}{#6}}%
+			{\KRS@gettwo\KRSnum@qminmax{#7}{#8}{#2}{#3}{#4}{#5}{#6}}%
+	}{%
+		\KRS@gettwo\KRSnum@cminmax{#7}{#8}{#1}{#2}{#3}{#4}{#5}{#6}%
+	}%
+}
+\def\KRSnum@cminmax#1#2#3#4#5#6#7#8{%
+	\KRSccomp{#3}{#4}{#5}{#6}{#7}\KRS@regb
+	\KRSccomp{#3}{#4}{#5}{#6}{#8}\KRS@regc
+	\KRS@minmax#1#2\KRS@regb\KRS@regc
+	\KRSnum@ccrit\KRS@regp\KRS@regq{#3}{#4}{#5}%
+	\ifx\KRS@regp\relax\else
+		\KRSifbetween\KRS@regp{#7}{#8}{%
+			\KRSccomp{#3}{#4}{#5}{#6}\KRS@regp\KRS@regb
+			\KRSifpos{#3}%
+				{\KRSifgt\KRS@regb#2{\global\let#2\KRS@regb}{}}%
+				{\KRSiflt\KRS@regb#1{\global\let#1\KRS@regb}{}}%
+		}{}%
+		\ifx\KRS@regq\KRS@regd\else
+			\KRSifbetween\KRS@regq{#7}{#8}{%
+				\KRSccomp{#3}{#4}{#5}{#6}\KRS@regq\KRS@regb
+				\KRSifpos{#3}%
+					{\KRSiflt\KRS@regb#1{\global\let#1\KRS@regb}{}}%
+					{\KRSifgt\KRS@regb#2{\global\let#2\KRS@regb}{}}%
+			}{}%
+		\fi
+	\fi
+}
+%% ==========================================
+%%  Module: KRS-lists
+%% ==========================================
+\newtoks\LST@tok
+\newcount\LSTcounter
+\let\LST@end\@firstofone
+\def\LSTnew{\KRS@getarg\newtoks}
+\def\LSTcopy{\KRS@gettwo\LST@copy}
+\def\LST@copy#1#2{%
+	\ifx\@nil#2\newtoks#2\fi
+	\edef\KRS@act{\noexpand#2={\the#1}}%
+	\KRS@act
+}
+\def\LSTglobal{\KRS@getarg\LST@global}
+\def\LST@global#1{\global#1=#1}
+\long\def\LSTdefault#1{\def\LST@default{#1}}
+\let\LST@default\relax
+\def\LSTapplyto{\KRS@gettwo\LTS@applyto}
+\def\LST@applyto#1#2{%
+	\let\LST@item#2%
+	\the#1\KRS@gobbletonnil\LST@item\@nnil
+}
+\def\LSTforeach{\KRS@getarg\LST@foreach}
+\long\def\LST@foreach#1#2{%
+	\def\LST@item##1{#2}%
+	\the#1\KRS@gobbletonnil\LST@item\@nnil
+}
+\let\LSTbreak\KRS@gobbletonnil
+\long\def\LSTcontinue#1\LST@item{%
+	\futurelet\KRS@rega\LST@continue
+}
+\def\LST@continue{
+	\ifx\@nnil\KRS@rega
+		\KRS@x\@gobble
+	\else
+		\KRS@x\LTS@item
+	\fi
+}
+\def\LSTifempty{\KRS@getarg\LST@ifempty}
+\def\LSTifnempty{\KRS@getarg\LST@ifnempty}
+\def\LST@ifempty#1{%
+	\edef\KRS@rega{\the#1}%
+	\ifx\KRS@rega\@empty
+		\KRS@x\@firstoftwo
+	\else
+		\KRS@x\@secondoftwo
+	\fi
+}
+\def\LST@ifnempty#1{%
+	\edef\KRS@rega{\the#1}%
+	\ifx\KRS@rega\@empty
+		\KRS@x\@secondoftwo
+	\else
+		\KRS@x\@firstoftwo
+	\fi
+}
+\def\LSTsize#1{\LSTgetsize{#1}\the\LSTcounter}
+\def\LSTgetsize{\KRS@getarg\LST@getsize}
+\def\LST@getsize#1{%
+	\LSTcounter=0\relax
+	\LST@foreach#1{\advance\LSTcounter\@ne}%
+}
+\def\LSTprint{\KRS@getarg\LST@print}
+\long\def\LST@print#1#2{%
+	\def\LST@item{\def\LST@item{#2}}%
+	\the#1%
+}
+\def\LSTappend{\KRS@getarg\LST@append}
+\long\def\LST@append#1#2{%
+	\LST@tok={\LST@item{#2}}%
+	\edef\KRS@act{\noexpand#1={\the#1\the\LST@tok}}%
+	\KRS@act
+}
+\def\LSTappendifnew{\KRS@getarg\LST@appendifnew}
+\long\def\LST@appendifnew#1#2{%
+	\LST@ifhas#1{#2}{}{\LST@append#1{#2}}%
+}
+\def\LSTappendifnewx{\KRS@getarg\LST@appendifnewx}
+\long\def\LST@appendifnewx#1#2{%
+	\LST@ifhasx#1{#2}{}{\LST@append#1{#2}}%
+}
+\def\LSTprepend{\KRS@getarg\LST@prepend}
+\long\def\LST@prepend#1#2{%
+	\LST@tok={\LST@item{#2}}%
+	\edef\KRS@act{\noexpand#1={\the\LST@tok\the#1}}%
+	\KRS@act
+}
+\def\LSTprependifnew{\KRS@getarg\LST@prependifnew}
+\long\def\LST@prependifnew#1#2{%
+	\LST@ifhas#1{#2}{}{\LST@prepend#1{#2}}%
+}
+\def\LSTprependifnewx{\KRS@getarg\LST@prependifnewx}
+\long\def\LST@prependifnewx#1#2{%
+	\LST@ifhasx#1{#2}{}{\LST@prepend#1{#2}}%
+}
+\def\LSTremovefirst{\KRS@getarg\LST@rem@first}
+\def\LST@rem@first#1{%
+	\def\LST@item##1##2\LST@end{#1={##2}\@gobble}%
+	\the#1\LST@end{%
+		\PackageWarning{LST}{The list \string#1 is empty}%
+	}%
+}
+\def\LSTfirst{\KRS@gettwo\LST@first}
+\def\LST@first#1#2{%
+	\def\LST@item##1##2\LST@end{\def#2{##1}\@gobble}%
+	\the#1\LST@end{%
+		\let#2\LST@default
+		\PackageWarning{LST}{The list \string#1 is empty}%
+	}%
+}
+\def\LSTgetfirst{\KRS@getarg\LST@getfirst}
+\def\LST@getfirst#1{%
+	\KRS@x\LST@@getfirst\the#1\LST@item
+		{\LST@default\PackageWarning{LST}{The list \string#1 is empty}}\LST@end
+}
+\def\LST@@getfirst\LST@item#1#2\LST@end{#1}
+\def\LSTpop{\KRS@gettwo\LST@pop}
+\def\LST@pop#1#2{%
+	\def\LST@item##1##2\LST@end{#1={##2}\def#2{##1}\@gobble}%
+	\the#1\LST@end{%
+		\let#2\LST@default
+		\PackageWarning{LST}{The list \string#1 is empty}%
+	}%
+}
+\def\LSTifhasx{\KRS@getarg\LST@ifhasx}
+\long\def\LST@ifhasx#1#2{%
+	\def\LST@item##1{\ifx#2##1\relax\KRS@xsec\KRS@afternil\@firstoftwo\fi}%
+	\the#1\KRS@afternil\@secondoftwo\@nil
+}
+\def\LSTifhas{\KRS@getarg\LST@ifhas}
+\long\def\LST@ifhas#1#2{%
+	\def\KRS@rega{#2}%
+	\def\LST@item##1{%
+		\def\KRS@regb{##1}%
+		\ifx\KRS@rega\KRS@regb\KRS@xsec\KRS@afternil\@firstoftwo\fi
+	}%
+	\the#1\KRS@afternil\@secondoftwo\@nil
+}
+%% ==========================================
+%%  Module: KRS-options
+%% ==========================================
+\let\OPTnamespace\@empty
+\LSTnew\OPT@ns
+\def\OPT#1{%
+	\KRS@xtrd\LSTprepend\OPT@ns{\OPTnamespace}%
+	\def\OPTnamespace{#1}%
+}
+\def\endOPT{%
+	\LSTifempty\OPT@ns
+		{\PackageWarning{OPT}{No option namespace to close}}%
+		{\LSTpop\OPT@ns\OPTnamespace}%
+}
+\def\OPTset{%
+	\@ifnextchar\KRS@lsq
+		{\OPT@set}%
+		{\OPT@set[\OPTnamespace]}%
+}
+\def\OPT@set[#1]#2#3{%
+	\KRS@xn\edef{OPT@#1@#2}{#3}%
+}
+\def\OPTget#1{%
+	\ifx*#1\KRS@x\@firstoftwo\else\KRS@x\@secondoftwo\fi
+		{\OPT@dget}%
+		{\OPT@get{#1}}%
+}
+\def\OPT@get#1{%
+	\ifx\KRS@lsq#1\KRS@x\@firstoftwo\else\KRS@x\@secondoftwo\fi
+		{\OPT@@get#1}%
+		{\OPT@@dget[\OPTnamespace]{#1}{#1}}%
+}
+\def\OPT@@get[#1]#2{%
+	\OPT@@dget[#1]{#2}{#2}%
+}
+\def\OPT@dget#1{%
+	\ifx\KRS@lsq#1\KRS@x\@firstoftwo\else\KRS@x\@secondoftwo\fi
+		{\OPT@@dget#1}%
+		{\OPT@@dget[\OPTnamespace]{#1}}%
+}
+\def\OPT@@dget[#1]#2#3{%
+	\KRS@ifdef{OPT@#1@#2}{\KRS@n{OPT@#1@#2}}%
+	{\KRS@ifdef{OPT@\OPTnamespace @#3}
+		{\KRS@n{OPT@\OPTnamespace @#3}}%
+		{\KRS@x\OPT@@@dget\the\OPT@ns\LST@item\LST@end\@nil{#3}}%
+	}%
+}
+\def\OPT@@@dget\LST@item#1#2\@nil#3{%
+	\ifx\LST@end#1\KRS@x\@gobble\else\KRS@x\@firstofone\fi
+		{\KRS@ifdef{OPT@#1@#3}%
+			{\KRS@n{OPT@#1@#3}}%
+			{\OPT@@@dget#2\@nil{#3}}%
+		}%			
+}
+\def\OPTifset{%
+	\@ifnextchar\KRS@lsq
+		{\OPT@ifset}%
+		{\OPT@ifset[\OPTnamespace]}%
+}
+\def\OPT@ifset[#1]#2{%
+	\KRS@ifdef{OPT@#1@#2}%
+}
+\def\OPTparse{%
+	\@ifnextchar\KRS@lsq
+		{\OPT@parse\OPT@set}%
+		{\OPT@parse\OPT@set[\OPTnamespace]}%
+}
+\def\OPTparseusing#1{%
+	\@ifnextchar\KRS@lsq
+		{\OPT@parse#1}%
+		{\OPT@parse#1[\OPTnamespace]}%
+}
+\def\OPT@parse#1[#2]#3{%
+	\@for\OPT@item:=#3\do{\KRS@x\OPT@@parse\OPT@item==\@nil[#2]#1}%
+}
+\def\OPT@@parse#1=#2=#3\@nil[#4]#5{%
+	#5[#4]{#1}{#2}%
+}
+%% ==========================================
+%%  Module: KRS-external
+%% ==========================================
+\def\KRSextdef#1#2{%
+	\if\relax\noexpand#1%
+		\gdef#1{#2}%
+	\else
+		\KRS@xn\gdef{#1}{#2}%
+	\fi
+	\LSTappend\KRSext@data{{#1}{#2}}%
+}
+\LSTnew\KRSext@data
+\edef\KRSext@filename{\jobname.dgc}%
+\newif\ifKRSext@save
+\KRSext@savefalse
+\def\KRSextsave#1#2{%
+	\LSTappend\KRSext@data{{#1}{#2}}%
+	\LSTglobal\KRSext@data
+	\global\KRSext@savetrue
+}
+\def\KRSext@read{%
+	\KRSmessage{reading data}%
+	\IfFileExists\KRSext@filename
+		{\input\KRSext@filename}{}%
+}
+\def\KRSext@write{%
+	\ifKRSext@save
+		\KRSmessage{saving data}%
+		\newwrite\KRSext@file
+		\immediate\openout\KRSext@file=\KRSext@filename
+		\LSTforeach\KRSext@data{%
+			\LST@tok={\KRSextdef##1}%
+			\immediate\write\KRSext@file{\the\LST@tok}%
+		}%
+		\write\KRSext@file{\string\endinput}%
+		\closeout\KRSext@file
+	\fi
+}
+\AtEndDocument{\KRSext@write}
+\KRSext@read
+%% ==========================================
+%%  Module: DGC-styles
+%% ==========================================
+\def\newstrandstyle#1#2{%
+	\begin{OPT}{style}%
+	\OPTset{strandtype}{string}%
+	\OPTparse{#2}%
+	\KRSifstreq{\OPTget{type}}{ribbon}{%
+		\setlength{\DGC@lenreg}{\OPTget*{width}{ribbonwidth}%
+										-\OPTget*{bdrywidth}{ribbonbdrywidth}*2}%
+		\KRS@xn\xdef{DGCstyle@str#1}{[%
+			linestyle=\OPTget*{style}{ribbonstyle},%
+			linewidth=\the\DGC@lenreg,%
+			linecolor=\OPTget{ribboncolor}%
+		]}%
+		\KRS@xn\xdef{DGCstyle@rib#1}{[%
+			linewidth=\OPTget*{width}{ribbonwidth},%
+			linecolor=\OPTget*{color}{ribbonbdrycolor}%
+		]}%
+		\KRS@xn\xdef{DGCstyle@dec#1}{[%
+			linestyle=solid,%
+			linewidth=\the\DGC@lenreg,%
+			linecolor=\OPTget*{color}{ribbonbdrycolor},%
+			fillstyle=solid,%
+			fillcolor=\OPTget*{color}{ribbonbdrycolor}%
+		]}%
+		\KRS@xn\xdef{DGCstyle@lin#1}{[%
+			dimen=middle,%
+			linestyle=\OPTget*{style}{ribbonstyle},%
+			linewidth=\OPTget*{bdrywidth}{ribbonbdrywidth},%
+			linecolor=\OPTget*{color}{ribbonbdrycolor},%
+			doubleline=true,%
+			doublesep=\the\DGC@lenreg,%
+			doublecolor=\OPTget{ribboncolor}%
+		]}%
+		\KRS@xn\xdef{DGCstyle@strwidth#1}{\OPTget*{width}{ribbonwidth}}%
+		\KRS@xn\xdef{DGCstyle@dotsize#1}{\OPTget*{dotsize}{ribbondotsize}}%
+		\KRS@xn\xdef{DGCstyle@labelsep#1}{\OPTget{labelsep}}%
+	}{%
+		\KRS@xn\xdef{DGCstyle@str#1}{[%
+			linestyle=\OPTget*{style}{stringstyle},%
+			linewidth=\OPTget*{width}{stringwidth},%
+			linecolor=\OPTget*{color}{stringcolor}%
+		]}%
+		\KRS@xxn\global\let{DGCstyle@rib#1}\relax
+		\KRS@xn\xdef{DGCstyle@dec#1}{[%
+			linestyle=solid,%
+			linewidth=\OPTget*{width}{stringwidth},%
+			linecolor=\OPTget*{color}{stringcolor},%
+			fillstyle=solid,%
+			fillcolor=\OPTget*{color}{stringcolor}%
+		]}%
+		\KRS@xn\xdef{DGCstyle@lin#1}{[%
+			dimen=middle,%
+			linestyle=\OPTget*{style}{stringstyle},%
+			linewidth=\OPTget*{width}{stringwidth},%
+			linecolor=\OPTget*{color}{stringcolor}%
+		]}%
+		\KRS@xn\xdef{DGCstyle@strwidth#1}{\OPTget*{width}{stringwidth}}%
+		\KRS@xn\xdef{DGCstyle@dotsize#1}{\OPTget*{dotsize}{stringdotsize}}%
+		\KRS@xn\xdef{DGCstyle@labelsep#1}{\OPTget{labelsep}}%
+	}%
+	\end{OPT}%
+}
+\def\newcouponstyle#1#2{%
+	\KRS@xn\xdef{DGCstyle@cpn#1}{[#2]}%
+}
+\def\DGCgetstrandstyle#1#2#3{%
+	\KRS@ifndef{DGCstyle@str#1}{%
+		\PackageWarning{DGC}{Strand style #1 is not defined}%
+		\KRS@xxn\let#2{DGCstyle@strblack}%
+		\KRS@xxn\let#3{DGCstyle@ribblack}%
+	}{%
+		\KRS@xxn\let#2{DGCstyle@str#1}%
+		\KRS@xxn\let#3{DGCstyle@rib#1}%
+	}%
+}
+\def\DGCgetlinestyle#1#2{%
+	\KRS@ifndef{DGCstyle@lin#1}{%
+		\PackageWarning{DGC}{Strand style #1 is not defined}%
+		\KRS@xxn\let#2{DGCstyle@linblack}%
+	}{%
+		\KRS@xxn\let#2{DGCstyle@lin#1}%
+	}%
+}
+\def\DGCgetdotstyle#1#2#3#4{%
+	\KRS@ifndef{DGCstyle@dec#1}{%
+		\PackageWarning{DGC}{Dot style #1 is not defined}%
+		\KRS@xxn\let#2{DGCstyle@decblack}%
+		\KRS@xxn\let#3{DGCstyle@dotsizeblack}%
+		\KRS@xxn\let#4{DGCstyle@labelsepblack}%
+	}{%
+		\KRS@xxn\let#2{DGCstyle@dec#1}%
+		\KRS@xxn\let#3{DGCstyle@dotsize#1}%
+		\KRS@xxn\let#4{DGCstyle@labelsep#1}%
+	}%
+}
+\def\DGCgetcouponstyle#1#2{%
+	\KRS@ifndef{DGCstyle@cpn#1}{%
+		\PackageWarning{DGC}{Coupon style #1 is not defined}%
+		\KRS@xxn\let#2{DGCstyle@cpnsolid}%
+	}{%
+		\KRS@xxn\let#2{DGCstyle@cpn#1}%
+	}%
+}
+%% ==========================================
+%%  Module: DGC-bezier
+%% ==========================================
+\def\DGCbeztocub#1#2#3#4#5#6#7#8{%
+	\FPsub\DGC@rega{#4}{#1}%
+	\FPsub\DGC@regb{#3}{#2}%
+	\FPmul\DGC@regb\DGC@regb{3}%
+	\FPsub\DGC@regc{#2}{#1}%
+	\FPmul\DGC@regc\DGC@regc{3}%
+	\FPsub#5\DGC@rega\DGC@regb
+	\FPsub#6\DGC@regb\DGC@regc
+	\let#7\DGC@regc
+	\edef#8{#1}%
+}
+\def\DGCrbeztorcub#1#2#3#4#5#6#7#8{%
+	\FPsub\DGC@rega{#4}{#1}%
+	\FPsub\DGC@regb{#3}{#2}%
+	\FPadd\DGC@regb\DGC@regb\DGC@rega
+	\FPmul\DGC@regb\DGC@regb{3}%
+	\FPmul\DGC@regc{#2}{3}%
+	\FPsub#5\DGC@rega\DGC@regb
+	\FPsub#6\DGC@regb\DGC@regc
+	\let#7\DGC@regc
+	\edef#8{#1}%
+}
+\def\DGC@vectdx@u{0}
+\def\DGC@vectdy@u{1}
+\def\DGC@vecta@u{90}
+\def\DGC@vectdx@uul{-0.5}
+\def\DGC@vectdy@uul{0.866025403784438647}
+\def\DGC@vecta@uul{120}
+\def\DGC@vectdx@ul{-0.707106781186547524}
+\def\DGC@vectdy@ul{0.707106781186547524}
+\def\DGC@vecta@ul{135}
+\def\DGC@vectdx@ull{-0.866025403784438647}
+\def\DGC@vectdy@ull{0.5}
+\def\DGC@vecta@ull{150}
+\def\DGC@vectdx@l{-1}
+\def\DGC@vectdy@l{0}
+\def\DGC@vecta@l{180}
+\def\DGC@vectdx@dll{-0.866025403784438647}
+\def\DGC@vectdy@dll{-0.5}
+\def\DGC@vecta@dll{-150}
+\def\DGC@vectdx@dl{-0.707106781186547524}
+\def\DGC@vectdy@dl{-0.707106781186547524}
+\def\DGC@vecta@dl{-135}
+\def\DGC@vectdx@ddl{-0.5}
+\def\DGC@vectdy@ddl{-0.866025403784438647}
+\def\DGC@vecta@ddl{-120}
+\def\DGC@vectdx@d{0}
+\def\DGC@vectdy@d{-1}
+\def\DGC@vecta@d{-90}
+\def\DGC@vectdx@ddr{0.5}
+\def\DGC@vectdy@ddr{-0.866025403784438647}
+\def\DGC@vecta@ddr{-60}
+\def\DGC@vectdx@dr{0.707106781186547524}
+\def\DGC@vectdy@dr{-0.707106781186547524}
+\def\DGC@vecta@dr{-45}
+\def\DGC@vectdx@drr{0.866025403784438647}
+\def\DGC@vectdy@drr{-0.5}
+\def\DGC@vecta@drr{-30}
+\def\DGC@vectdx@r{1}
+\def\DGC@vectdy@r{0}
+\def\DGC@vecta@r{0}
+\def\DGC@vectdx@urr{0.866025403784438647}
+\def\DGC@vectdy@urr{0.5}
+\def\DGC@vecta@urr{30}
+\def\DGC@vectdx@ur{0.707106781186547524}
+\def\DGC@vectdy@ur{0.707106781186547524}
+\def\DGC@vecta@ur{45}
+\def\DGC@vectdx@uur{0.5}
+\def\DGC@vectdy@uur{0.866025403784438647}
+\def\DGC@vecta@uur{60}
+\def\DGC@codetovect#1#2{%
+	\KRS@xn\ifx{DGC@vectdx@#1}\relax
+		\def#2{/#1/}%
+	\else
+		\edef#2{/\KRS@n{DGC@vectdx@#1},\KRS@n{DGC@vectdy@#1}/}%
+	\fi
+}
+\def\DGC@codetoangle#1#2{%
+	\KRS@xn\ifx{DGC@vecta@#1}\relax
+		\def#2{#1}%
+	\else
+		\KRS@xxn\let#2{DGC@vecta@#1}%
+	\fi
+}
+\def\DGC@angletovect#1#2#3{%
+	\DGC@angle@vect#1,,\@nil#2#3%
+}
+\def\DGC@angle@vect#1,#2,#3\@nil#4#5{%
+	\def\DGC@rega{#2}%
+	\ifx\DGC@rega\@empty
+		\FPmul\DGC@rega{#1}{0.017453292}%
+		\FPsincos#4#5{#1}%
+	\else
+		\DGC@vectnorm#4#5{#1}{#2}%
+	\fi
+}
+\def\DGC@vectnorm#1#2#3#4{%
+	\FPmul\DGC@rega{#3}{#3}%
+	\FPmul\DGC@regb{#4}{#4}%
+	\FPadd\DGC@regc\DGC@rega\DGC@regb
+	\KRSifzero\DGC@regc{%
+		\def#1{0}%
+		\let#2#1%
+	}{\KRSifneq\DGC@regc{1}{%
+		\FProot\DGC@regc\DGC@regc{2}%
+		\FPdiv\DGC@regc{1}\DGC@regc
+		\FPmul#1{#3}\DGC@regc
+		\FPmul#2{#4}\DGC@regc
+	}{%
+		\edef#1{#3}%
+		\edef#2{#4}%
+	}}%
+}
+\def\DGC@rfp#1{%
+	\FPround\DGC@rega#1{5}%
+	\FPclip#1\DGC@rega
+}%
+\def\DGC@degtorad#1#2{%
+	\FPmul#1{#2}{0.017453292519943296}%
+}%
+\def\DGC@radtodeg#1#2{%
+	\FPmul#1{#2}{57.295779513082320877}%
+}
+\def\DGC@vecttoangle#1#2#3{%
+	\DGC@vectnorm\DGC@rega\DGC@regc{#2}{#3}%
+	\FPabs\DGC@regb\DGC@rega
+	\FPabs\DGC@regd\DGC@regc
+	\KRSifgt\DGC@regb\DGC@regd{%
+		\KRSifgt\DGC@regb{1}%
+			{\def#1{0}}%
+			{\FParccos#1\DGC@regb\DGC@radtodeg#1#1}%
+	}{%
+		\KRSifgt\DGC@regd{1}%
+			{\def#1{90}}%
+			{\FParcsin#1\DGC@regd\DGC@radtodeg#1#1}%
+	}%
+	\KRSifneg\DGC@rega{\FPsub#1{180}#1}{}%
+	\KRSifneg\DGC@regc{\FPneg#1#1}{}%
+	\DGC@normangle#1%
+}
+\def\DGC@normangle#1{%
+	\loop\KRSifgt#1{180}{\FPsub#1#1{360}\iftrue}{\iffalse}\repeat
+	\loop\KRSifle#1{-180}{\FPadd#1#1{360}\iftrue}{\iffalse}\repeat
+}
+%% ==========================================
+%%  Module: DGC-strands
+%% ==========================================
+\def\DGCround{0.5}
+\newtoks\DGCstr@code
+\newtoks\DGCstr@data
+\def\DGCstr@getcode#1{%
+	\let\DGCstr@delayedcode#1%
+	\@ifnextchar/{%
+		\DGCstr@code={}%
+		\DGCstr@codetan
+	}{%
+		\DGCstr@code={/0,1/}%
+		\DGCstr@codecoord
+	}%
+}
+\def\DGCstr@codetan/#1/{%
+	\DGC@codetovect{#1}\DGC@rega
+	\edef\DGC@act{\noexpand\DGCstr@code={\the\DGCstr@code\DGC@rega}}\DGC@act
+	\@ifnextchar\KRS@lbr
+		\DGCstr@codecoord
+		\DGCstr@delayedcode
+}
+\def\DGCstr@codecoord(#1){%
+	\edef\DGC@act{\noexpand\DGCstr@code={\the\DGCstr@code(#1)}}\DGC@act
+	\@ifnextchar\KRS@lbr\DGCstr@codecoord{%
+		\@ifnextchar/\DGCstr@codetan{%
+			\edef\DGC@act{\noexpand\DGCstr@code={\the\DGCstr@code/0,1/}}\DGC@act
+			\DGCstr@delayedcode
+		}%
+	}%
+}
+\def\DGCstr@getlabels#1{%
+	\let\DGC@delayedcode#1%
+	\@ifnextchar\KRS@lsq\DGCstr@getlab{%
+		\let\DGCstr@labelst\@empty
+		\let\DGCstr@labelend\@empty
+		\DGC@delayedcode
+	}%
+}
+\def\DGCstr@getlab[#1]{\DGCstr@@getlab[#1``]}
+\def\DGCstr@@getlab[#1`#2`#3]{%
+	\def\DGCstr@labelst{#1}%
+	\def\DGCstr@labelend{#2}%
+	\DGC@delayedcode
+}
+\def\DGCstr@labelsize(#1,#2)(#3,#4){%
+	\ifx\DGCstr@labelst\@empty\else
+		\DGCstr@label@size(#3,#4){#2}{#4}\DGCstr@labelst
+	\fi
+	\ifx\DGCstr@labelend\@empty
+		\KRS@x\KRS@gobbletonnil
+	\else
+		\KRS@x\DGCstr@labelsize@next
+	\fi
+}
+\def\DGCstr@labelsize@next(#1,#2)#3(#4,#5)#6{%
+	\ifx#6\@nnil\KRS@x\@firstoftwo\else\KRS@x\@secondoftwo\fi
+		{\DGCstr@label@size(#1,#2){#5}{#2}\DGCstr@labelend}%
+		{\DGCstr@labelsize@next(#4,#5)#6}%
+}
+\def\DGCstr@label@size(#1,#2)#3#4#5{%
+	\setlength\DGC@lenleft{\minof{\the\DGC@lenleft}{#1\DGCxunit - (\widthof{#5}/2)}}%
+	\setlength\DGC@lenright{\maxof{\the\DGC@lenright}{#1\DGCxunit + (\widthof{#5}/2)}}%
+	\KRSiflt{#3}{#4}{%
+		\setlength\DGC@lenreg{\maxof{0pt}{\baselineskip - \heightof{#5}}}%
+		\setlength\DGC@lenbot{%
+			\minof{\the\DGC@lenbot}{#2\DGCyunit - \totalheightof{#5} - \DGC@lenreg}%
+		}%
+		\edef#5{{\the\DGC@lenreg}[d](#1,#2){#5}}%
+	}{%
+		\setlength\DGC@lenreg{\heightof{#5} - \totalheightof{#5} + 0.5\baselineskip}%
+		\setlength\DGC@lentop{%
+			\maxof{\the\DGC@lentop}{#2\DGCyunit + \totalheightof{#5} + \DGC@lenreg}%
+		}%
+		\edef#5{{\the\DGC@lenreg}[u](#1,#2){#5}}%
+	}%
+}
+\def\DGCstr@add{%
+	\advance\DGC@objects 1\relax
+	\DGC@rfp\DGCstr@left\DGC@rfp\DGCstr@right
+	\DGC@rfp\DGCstr@top\DGC@rfp\DGCstr@bot
+	\KRS@xxn\let\DGCstr@width{DGCstyle@strwidth\DGCstr@style}%
+	\setlength\DGC@lenleft{\DGCstr@left\DGCxunit - (\DGCstr@width/2)}%
+	\setlength\DGC@lenright{\DGCstr@right\DGCxunit + (\DGCstr@width/2)}%
+	\setlength\DGC@lenbot{\DGCstr@bot\DGCyunit - (\DGCstr@width/2)}%
+	\setlength\DGC@lentop{\DGCstr@top\DGCyunit + (\DGCstr@width/2)}%
+	\KRS@x\DGCstr@labelsize\the\DGCstr@data\@nnil
+	\KRS@xn\edef{DGCobj\the\DGC@objects}{%
+		\DGCstr@type{\DGCstr@style}{\the\DGCstr@data}{\DGCstr@labelst}{\DGCstr@labelend}%
+	}%
+	\DGC@updatesize{\the\DGC@lenleft}{\the\DGC@lenbot}{\the\DGC@lenright}{\the\DGC@lentop}%
+}
+\def\DGCPLstrand{%
+	\def\DGCstr@type{P}%
+	\@ifnextchar\KRS@lsq{%
+		\DGCstr@PLparse@style
+	}{%
+		\def\DGCstr@style{black}%
+		\DGCstr@PLparse@first
+	}%
+}
+\def\DGCstr@PLparse@style[#1]{%
+	\edef\DGCstr@style{#1}%
+	\DGCstr@PLparse@first
+}
+\def\DGCstr@PLparse@first(#1,#2)(#3,#4){%
+	\FPadd\DGC@ax{#1}{#1}\FPsub\DGC@ax\DGC@ax{#3}%
+	\FPadd\DGC@ay{#2}{#2}\FPsub\DGC@ay\DGC@ay{#4}%
+	\edef\DGCstr@left{#1}\let\DGCstr@right\DGCstr@left
+	\edef\DGCstr@top{#2}\let\DGCstr@bot\DGCstr@top
+	\edef\DGC@act{\noexpand\DGCstr@data={(\DGC@ax,\DGC@ay)(#1,#2)}}\DGC@act
+	\DGCstr@PLparse(#1,#2)(#3,#4)%
+}
+\def\DGCstr@PLparse(#1,#2)(#3,#4){%
+	\DGCstr@minmax\DGCstr@left\DGCstr@right{#3}%
+	\DGCstr@minmax\DGCstr@bot\DGCstr@top{#4}%
+	\@ifnextchar\KRS@lbr{%
+		\edef\DGC@act{\noexpand\DGCstr@data={\the\DGCstr@data(#3,#4)}}\DGC@act
+		\DGCstr@PLparse(#3,#4)%
+	}{%
+		\FPadd\DGC@ax{#3}{#3}\FPsub\DGC@ax\DGC@ax{#1}%
+		\FPadd\DGC@ay{#4}{#4}\FPsub\DGC@ay\DGC@ay{#2}%
+		\edef\DGC@act{\noexpand\DGCstr@data={\the\DGCstr@data(#3,#4)(\DGC@ax,\DGC@ay)}}\DGC@act
+		\DGCstr@getlabels\DGCstr@add
+	}%
+}
+\def\DGCstrand{%
+	\def\DGCstr@type{S}%
+	\@ifnextchar\KRS@lsq{%
+		\DGCstr@smooth
+	}{%
+		\def\DGCstr@style{black}%
+		\DGCstr@getcode\DGCstr@@smooth
+	}%
+}
+\def\DGCstr@smooth[#1]{%
+	\edef\DGCstr@style{#1}%
+	\DGCstr@getcode\DGCstr@@smooth
+}
+\def\DGCstr@@smooth{%
+	\KRS@ifdef{DGC@str\DGCround\the\DGCstr@code}{%
+		\KRS@xne\DGCstr@setdata{DGC@str\DGCround\the\DGCstr@code}\@nil
+	}{%
+		\DGCmessage[B]{strand: computing}%
+		\KRS@x\DGCstr@parsecode\the\DGCstr@code
+		\DGCmessage[C]{getting size}%
+		\KRS@x\DGCstr@getsize\the\DGCstr@data
+		\KRS@xn\xdef{DGC@str\DGCround\the\DGCstr@code}%
+				{[\DGCstr@left,\DGCstr@bot,\DGCstr@right,\DGCstr@top]\the\DGCstr@data}%
+		\edef\DGC@act{%
+			\noexpand\KRSextsave{DGC@str\DGCround\the\DGCstr@code}{\csname DGC@str\DGCround\the\DGCstr@code\endcsname}%
+		}\DGC@act
+		\DGCmessage[E]{}%
+	}%
+	\DGCstr@getlabels\DGCstr@add
+}
+\def\DGCstr@setdata[#1,#2,#3,#4]#5\@nil{%
+	\def\DGCstr@left{#1}\def\DGCstr@bot{#2}%
+	\def\DGCstr@right{#3}\def\DGCstr@top{#4}%
+	\DGCstr@data={#5}%
+}
+\newif\ifDGC@capmode
+\def\DGCstr@capbase#1#2{%
+	\FPsub\DGC@capbase{#2}{#1}%
+	\FPabs\DGC@capbase\DGC@capbase
+}
+\def\DGCstr@parsecode/#1/(#2){%
+	\DGCstr@data={}%
+	\DGC@capmodefalse
+	\@ifnextchar/%
+		{\DGCstr@parse@slope(#2)}%
+		{\DGCstr@parse@slope(#2)/#1/}%
+}
+\def\DGCstr@parse@next(#1){%
+	\@ifnextchar/%
+		{\DGCstr@parse@@slope(#1)}%
+		{\DGCstr@parse@coord(#1)}%
+}
+\def\DGCstr@parse@last(#1,#2)/#3/{%
+	\DGC@angletovect{#3}\DGC@cx\DGC@cy
+	\DGCstr@ctrlpt{#1}{#2}{-\DGC@cx}{-\DGC@cy}\DGC@ax\DGC@ay
+	\DGC@capmodefalse
+	\DGCstr@ctrlpt{#1}{#2}\DGC@cx\DGC@cy\DGC@bx\DGC@by
+	\edef\DGC@act{%
+		\noexpand\DGCstr@data={\the\DGCstr@data(\DGC@ax,\DGC@ay)(#1,#2)(\DGC@bx,\DGC@by)}%
+	}\DGC@act
+}
+\def\DGCstr@parse@@slope(#1)/#2/{%
+	\@ifnextchar\KRS@lbr
+		{\DGCstr@parse@slope(#1)/#2/}%
+		{\DGCstr@parse@last(#1)/#2/}%
+}
+\def\DGCstr@parse@slope(#1,#2)/#3/(#4,#5){%
+	\DGC@angletovect{#3}\DGC@cx\DGC@cy
+	\DGCstr@ctrlpt{#1}{#2}{-\DGC@cx}{-\DGC@cy}\DGC@ax\DGC@ay
+	\KRSifeq{#2}{#5}{%
+		\DGC@capmodetrue
+		\DGCstr@capbase{#4}{#1}%
+		\let\DGC@dx\DGC@cx
+		\let\DGC@dy\DGC@cy
+	}{%
+		\DGC@capmodefalse
+		\FPsub\DGC@dx{#4}{#1}%
+		\FPsub\DGC@dy{#5}{#2}%
+		\DGC@vectnorm\DGC@dx\DGC@dy\DGC@dx\DGC@dy
+	}%
+	\DGCstr@ctrlpt{#1}{#2}\DGC@cx\DGC@cy\DGC@bx\DGC@by
+	\edef\DGC@act{%
+		\noexpand\DGCstr@data={\the\DGCstr@data(\DGC@ax,\DGC@ay)(#1,#2)(\DGC@bx,\DGC@by)}%
+	}\DGC@act
+	\DGCstr@parse@next(#4,#5)%
+}
+\def\DGCstr@parse@coord(#1,#2)(#3,#4){%
+	\FPsub\DGC@ndx{#3}{#1}%
+	\FPsub\DGC@ndy{#4}{#2}%
+	\ifDGC@capmode
+		\KRSifzero\DGC@ndy{%
+			\KRSifsamesigns\DGC@dx\DGC@ndx{%
+				\DGCstr@ctrlpt{#1}{#2}{-\DGC@dx}\DGC@dy\DGC@ax\DGC@ay
+				\FPneg\DGC@dy\DGC@dy
+				\FPabs\DGC@capbase\DGC@ndx
+				\DGCstr@ctrlpt{#1}{#2}\DGC@dx\DGC@dy\DGC@bx\DGC@by
+			}{%
+				\DGCstr@ctrlpt{#1}{#2}{0}\DGC@dy\DGC@ax\DGC@ay
+				\FPneg\DGC@dy\DGC@dy
+				\def\DGC@dx{0}%
+				\FPabs\DGC@capbase\DGC@ndx
+				\DGCstr@ctrlpt{#1}{#2}\DGC@dx\DGC@dy\DGC@bx\DGC@by
+			}%
+		}{%
+			\DGC@vectnorm\DGC@dx\DGC@dy\DGC@ndx\DGC@ndy
+			\DGCstr@ctrlpt{#1}{#2}{-\DGC@dx}{-\DGC@dy}\DGC@ax\DGC@ay
+			\DGC@capmodefalse
+			\DGCstr@ctrlpt{#1}{#2}\DGC@dx\DGC@dy\DGC@bx\DGC@by
+		}%
+		\edef\DGC@act{%
+			\noexpand\DGCstr@data={\the\DGCstr@data(\DGC@ax,\DGC@ay)(#1,#2)(\DGC@bx,\DGC@by)}%
+		}\DGC@act
+	\else
+		\KRSifzero\DGC@ndy{%
+			\DGCstr@ctrlpt{#1}{#2}{-\DGC@dx}{-\DGC@dy}\DGC@ax\DGC@ay
+			\DGC@capmodetrue
+			\FPabs\DGC@capbase\DGC@ndx
+			\DGCstr@ctrlpt{#1}{#2}\DGC@dx\DGC@dy\DGC@bx\DGC@by
+			\edef\DGC@act{%
+				\noexpand\DGCstr@data={\the\DGCstr@data(\DGC@ax,\DGC@ay)(#1,#2)(\DGC@bx,\DGC@by)}%
+			}\DGC@act
+		}{%
+			\FPmul\DGCtmp@a\DGC@dx\DGC@ndy
+			\FPmul\DGCtmp@b\DGC@dy\DGC@ndx
+			\FPsub\DGC@vp\DGCtmp@a\DGCtmp@b
+			\KRSifzero\DGC@vp\@firstofone\@thirdofthree
+			{\KRSifsamesigns\DGC@dx\DGC@ndx\@firstofone\@secondoftwo}%
+			{\KRSifsamesigns\DGC@dy\DGC@ndy{}}%
+			{%
+				\KRSifsamesigns\DGC@ndx\DGC@dx
+				{\KRSifdiffsigns\DGC@ndy\DGC@dy{%
+					\DGC@vectnorm\DGC@cx\DGC@cy\DGC@dx{0}%
+					\DGC@vectnorm\DGC@dx\DGC@dy\DGC@ndx\DGC@ndy
+				}}%
+				{\KRSifsamesigns\DGC@ndy\DGC@dy{%
+					\DGC@vectnorm\DGC@cx\DGC@cy{0}\DGC@dy
+					\DGC@vectnorm\DGC@dx\DGC@dy\DGC@ndx\DGC@ndy
+				}}%
+				{%
+					\DGC@vectnorm\DGC@ndx\DGC@ndy\DGC@ndx\DGC@ndy
+					\FPadd\DGC@cx\DGC@dx\DGC@ndx
+					\FPadd\DGC@cy\DGC@dy\DGC@ndy
+					\DGC@vectnorm\DGC@cx\DGC@cy\DGC@cx\DGC@cy
+					\let\DGC@dx\DGC@ndx
+					\let\DGC@dy\DGC@ndy
+				}%
+				\DGCstr@ctrlpt{#1}{#2}{-\DGC@cx}{-\DGC@cy}\DGC@ax\DGC@ay
+				\DGCstr@ctrlpt{#1}{#2}{\DGC@cx}{\DGC@cy}\DGC@bx\DGC@by
+				\edef\DGC@act{%
+					\noexpand\DGCstr@data{\the\DGCstr@data(\DGC@ax,\DGC@ay)(#1,#2)(\DGC@bx,\DGC@by)}%
+				}\DGC@act
+			}%
+		}%
+	\fi
+	\DGCstr@parse@next(#3,#4)%
+}
+\def\DGCstr@getsize(#1)(#2,#3){%
+	\def\DGCstr@left{#2}\let\DGCstr@right\DGCstr@left
+	\def\DGCstr@top{#3}\let\DGCstr@bot\DGCstr@top
+	\DGCstr@data={(#1)(#2,#3)}%
+	\DGCstr@get@size(#2,#3)%
+}
+\def\DGCstr@get@size(#1,#2)(#3,#4)(#5,#6)(#7,#8)(#9){%
+	\DGCstr@getextr{#1}{#3}{#5}{#7}\DGCstr@left\DGCstr@right
+	\KRSiflt{#2}{#8}%
+		{\def\DGC@ax{0}\def\DGC@ay{#2}\def\DGC@dx{1}\def\DGC@dy{#8}}%
+		{\def\DGC@dx{0}\def\DGC@dy{#2}\def\DGC@ax{1}\def\DGC@ay{#8}}%
+	\DGCbeztocub{#2}{#4}{#6}{#8}\DGC@rega\DGC@regb\DGC@regc\DGC@regd
+	\KRSnum@ccrit\DGC@bx\DGC@cx\DGC@rega\DGC@regb\DGC@regc
+	\ifx\DGC@bx\relax
+		\def\DGC@bx{0}\def\DGC@by{#2}%
+	\else
+		\KRSifbetween\DGC@bx{0}{1}{%
+			\KRSccomp\DGC@rega\DGC@regb\DGC@regc\DGC@regd\DGC@bx\DGC@by
+			\KRSiflt\DGC@by\DGC@ay
+				{\let\DGC@ax\DGC@bx\let\DGC@ay\DGC@by}%
+				{\KRSifgt\DGC@by\DGC@dy{\let\DGC@dx\DGC@bx\let\DGC@dy\DGC@by}{}}%
+		}{\def\DGC@bx{0}\def\DGC@by{#2}}%
+	\fi
+	\ifx\DGC@cx\relax
+		\def\DGC@cx{1}\def\DGC@cy{#8}%
+	\else
+		\ifx\DGC@bx\DGC@cx
+			\def\DGC@cx{1}\def\DGC@cy{#8}%
+		\else
+			\KRSifbetween\DGC@cx{0}{1}{%
+				\KRSccomp\DGC@rega\DGC@regb\DGC@regc\DGC@regd\DGC@cx\DGC@cy
+				\KRSiflt\DGC@cy\DGC@ay
+					{\let\DGC@ax\DGC@cx\let\DGC@ay\DGC@cy}%
+					{\KRSifgt\DGC@cy\DGC@dy{\let\DGC@dx\DGC@cx\let\DGC@dy\DGC@cy}{}}%
+			}{\def\DGC@cx{1}\def\DGC@cy{#8}}%
+		\fi
+	\fi
+	\DGC@rfp\DGC@bx\DGC@rfp\DGC@by
+	\DGC@rfp\DGC@cx\DGC@rfp\DGC@cy
+	\edef\DGC@act{%
+		\noexpand\DGCstr@data={\the\DGCstr@data(#3,#4)(#5,#6)(#7,#8)\DGC@bx,\DGC@by,\DGC@cx,\DGC@cy}%
+	}\DGC@act
+	\DGC@rfp\DGC@ax\DGC@rfp\DGC@ay
+	\DGC@rfp\DGC@dx\DGC@rfp\DGC@dy
+	\DGCstr@minmax\DGCstr@bot\DGCstr@top\DGC@ay
+	\DGCstr@minmax\DGCstr@bot\DGCstr@top\DGC@dy
+	\@ifnextchar\KRS@lbr
+		{\DGCstr@get@size(#7,#8)(#9)}
+		{\edef\DGC@act{\noexpand\DGCstr@data={\the\DGCstr@data(#9)}}\DGC@act}%
+}
+\def\DGCstr@minmax#1#2#3{%
+	\KRSiflt{#3}{#1}%
+		{\edef#1{#3}}%
+		{\KRSifgt{#3}{#2}{\edef#2{#3}}{}}%
+}
+\def\DGCstr@getextr#1#2#3#4#5#6{%
+	\DGCbeztocub{#1}{#2}{#3}{#4}\DGC@ax\DGC@bx\DGC@cx\DGC@dx
+	\KRScminmax\DGC@ax\DGC@bx\DGC@cx\DGC@dx{0}{1}\DGC@ay\DGC@by
+	\DGCstr@minmax#5#6{#4}%
+	\KRSiflt\DGC@ay#5{\let#5\DGC@ay}{}%
+	\KRSifgt\DGC@by#6{\let#6\DGC@by}{}%
+}
+\def\DGCstr@ctrlpt#1#2#3#4#5#6{%
+	\FPset#5{#3}%
+	\FPset#6{#4}%
+	\ifDGC@capmode
+		\FPmul\DGC@rega{#5}{#5}%
+		\FPmul\DGC@regc{#6}{0.5}%
+		\FPmul\DGC@regb\DGC@regc\DGC@regc
+		\FPadd\DGC@regc\DGC@rega\DGC@regb
+		\FProot\DGC@vp\DGC@regc{2}%
+		\FPmul\DGC@vp\DGC@vp{3}%
+		\FPdiv\DGC@vp\DGC@capbase\DGC@vp
+		\FPmul#5#5\DGC@vp
+		\FPmul#6#6\DGC@vp
+	\else
+		\FPmul#5#5\DGCround
+		\FPmul#6#6\DGCround
+	\fi
+	\FPadd#5{#1}#5\DGC@rfp#5%
+	\FPadd#6{#2}#6\DGC@rfp#6%
+}
+\def\DGCbubble{%
+	\@ifnextchar\KRS@lsq
+		{\DGCstr@bubble}%
+		{\DGCstr@bubble[black]}%
+}
+\def\DGCstr@bubble[#1](#2,#3)#4{%
+	\advance\DGC@objects 1\relax
+	\def\DGCstr@type{B}%
+	\edef\DGCstr@style{#1}%
+	\edef\DGC@ax{#2}\edef\DGC@ay{#3}\edef\DGC@dx{#4}\FPabs\DGC@bx\DGC@dx
+	\KRS@xn\edef{DGCobj\the\DGC@objects}{B{#1}{(\DGC@ax,\DGC@ay){\DGC@bx}}}%
+	\KRS@xxn\let\DGCstr@width{DGCstyle@strwidth#1}%
+	\setlength\DGC@lenleft{\DGC@ax\DGCxunit - \DGC@bx\DGCxunit - (\DGCstr@width/2)}%
+	\setlength\DGC@lenright{\DGC@ax\DGCxunit + \DGC@bx\DGCxunit + (\DGCstr@width/2)}%
+	\setlength\DGC@lenbot{\DGC@ay\DGCyunit - \DGC@bx\DGCyunit - (\DGCstr@width/2)}%
+	\setlength\DGC@lentop{\DGC@ay\DGCyunit + \DGC@bx\DGCyunit + (\DGCstr@width/2)}%
+	\DGC@updatesize{\the\DGC@lenleft}{\the\DGC@lenbot}{\the\DGC@lenright}{\the\DGC@lentop}%
+}
+%% ==========================================
+%%  Module: DGC-dots
+%% ==========================================
+\newif\ifDGCdot@relative
+\DGCdot@relativefalse
+\def\DGCdot{%
+	\@ifstar{\DGCdot@relativetrue\DGCdot@}{\DGCdot@relativefalse\DGCdot@}%
+}
+\def\DGCdot@{%
+	\@ifnextchar\DGC@lsq
+		\DGCdot@@
+		{\DGCdot@@[\DGCstr@style]}%
+}
+\def\DGCdot@@[#1]#2{%
+	\edef\DGCdot@style{#1}%
+	\KRSswitch{#2}%
+		\case{o,|,x,>,<,.}{%
+			\def\DGCdot@type{#2}\DGCdot@@@
+		}\default{%
+			\def\DGCdot@type{o}\DGCdot@@@{#2}%
+	}\KRSendswitch
+}
+\def\DGCdot@@@#1{%
+	\if\DGCstr@type B\KRS@x\@firstoftwo\else\KRS@x\@secondoftwo\fi
+		{\DGCdot@bubble@comp#1,A,\@nil}%
+		{\DGCdot@str@comp#1,1,\@nil}%
+}
+\def\DGCdot@setdata#1(#2,#3){%
+	\def\DGC@dotx{#2}%
+	\def\DGC@doty{#3}%
+	\def\DGC@dota{#1}%
+	\DGCdot@getlabel
+}
+\def\DGCdot@getlabel{%
+	\@ifnextchar\KRS@lsq
+		\DGCdot@add
+		{\DGCdot@add[l]{}}%
+}
+\def\DGCdot@add[#1]#2{%
+	\ifx\DGC@dotx\relax\else
+		\KRS@xxn\let\DGCdot@size{DGCstyle@dotsize\DGCdot@style}%
+		\setlength\DGC@lenleft{\DGC@dotx\DGCxunit - \DGCdot@size}%
+		\setlength\DGC@lenright{\DGC@dotx\DGCxunit + \DGCdot@size}%
+		\setlength\DGC@lenbot{\DGC@doty\DGCyunit - \DGCdot@size}%
+		\setlength\DGC@lentop{\DGC@doty\DGCyunit + \DGCdot@size}%
+		\DGC@updatesize{\the\DGC@lenleft}{\the\DGC@lenbot}{\the\DGC@lenright}{\the\DGC@lentop}%
+		\KRSifnempty{#2}{%
+			\setlength\DGC@lenreg{\KRS@n{DGCstyle@labelsep\DGCdot@style} + \DGCdot@size}%
+			\setlength\DGC@lenright{\DGC@lenreg+(\widthof{#2}/2)}%
+			\setlength\DGC@lentop{\DGC@lenreg+(\totalheightof{#2}/2)}%
+			\DGC@codetoangle{#1}\DGC@rega
+			\ifDGCdot@relative
+				\FPadd\DGC@rega\DGC@rega\DGC@dota
+				\FPsub\DGC@rega\DGC@rega{90}%
+			\fi
+			\DGC@normangle\DGC@rega
+			\DGC@degtorad\DGC@regb\DGC@rega
+			\FPsincos\DGC@by\DGC@bx\DGC@regb
+			\DGC@rfp\DGC@bx\DGC@rfp\DGC@by
+			\setlength\DGC@lenleft{\DGC@dotx\DGCxunit + \DGC@bx\DGC@lenright}%
+			\setlength\DGC@lenbot{\DGC@doty\DGCyunit + \DGC@by\DGC@lentop}%
+			\edef\DGC@labelx{\the\DGC@lenleft}%
+			\edef\DGC@labely{\the\DGC@lenbot}%
+			\setlength\DGC@lenright{\widthof{#2}}%
+			\setlength\DGC@lentop{\totalheightof{#2}}%
+			\addtolength\DGC@lenleft{-0.5\DGC@lenright}%
+			\addtolength\DGC@lenbot{-0.5\DGC@lentop}%
+			\addtolength\DGC@lenright\DGC@lenleft
+			\addtolength\DGC@lentop\DGC@lenbot
+			\DGC@updatesize{\the\DGC@lenleft}{\the\DGC@lenbot}{\the\DGC@lenright}{\the\DGC@lentop}%
+		}{%
+			\let\DGC@labelx\relax
+			\let\DGC@labely\relax
+		}%
+		\advance\DGC@objects 1\relax
+		\DGC@tokreg={#2}%
+		\KRS@xn\edef{DGCobj\the\DGC@objects}{%
+			D{\DGCstr@style}{\DGC@dota}{(\DGC@dotx,\DGC@doty)}{\DGCdot@type}{\DGC@labelx}{\DGC@labely}\the\DGC@tokreg
+		}%
+	\fi
+}
+\def\DGCdot@bubble@comp#1,#2,#3\@nil{%
+	\KRS@ifdef{DGC@point#1,#2@B\DGC@ax,\DGC@ay,\DGC@dx}{%
+		\KRS@xne\DGCdot@setdata{DGC@point#1,#2@B\DGC@ax,\DGC@ay,\DGC@dx}%
+	}{%
+		\DGCmessage{dot}%
+		\let\DGC@dotx\relax
+		\KRSswitchx{#2}%
+			\case{A}{%
+				\DGC@codetoangle{#1}\DGC@dota
+				\DGC@degtorad\DGC@bx\DGC@dota\FPsincos\DGC@cy\DGC@cx\DGC@bx
+				\KRSifpos\DGC@dx
+					{\FPadd\DGC@dota\DGC@dota{90}\let\DGC@bx\DGC@dx}%
+					{\FPsub\DGC@dota\DGC@dota{90}\FPneg\DGC@bx\DGC@dx}%
+				\FPmul\DGC@dotx\DGC@cx\DGC@bx\FPadd\DGC@dotx\DGC@dotx\DGC@ax
+				\FPmul\DGC@doty\DGC@cy\DGC@bx\FPadd\DGC@doty\DGC@doty\DGC@ay
+			}\case{L,R}{%
+				\edef\DGC@doty{#1}%
+				\FPsub\DGC@cy\DGC@doty\DGC@ay
+				\FPsub\DGC@bx\DGC@dx\DGC@cy
+				\FPadd\DGC@by\DGC@dx\DGC@cy
+				\FPmul\DGC@dy\DGC@bx\DGC@by
+				\KRSifneg\DGC@dy{%
+					\PackageWarning{DGC}{A dot {#1,#2} is out of a bubble}%
+				}{%
+					\FProot\DGC@cx\DGC@dy{2}%
+					\ifx#2L\FPneg\DGC@cx\DGC@cx\fi
+					\FPadd\DGC@dotx\DGC@ax\DGC@cx
+					\DGC@vecttoangle\DGC@dota\DGC@cx\DGC@cy
+					\KRSifpos\DGC@dx
+						{\FPadd\DGC@dota\DGC@dota{90}}%
+						{\FPsub\DGC@dota\DGC@dota{90}}%
+				}%
+			}\default{%
+				\PackageWarning{DGC}{Unknown dot placement #2}%
+		}\KRSendswitch
+		\ifx\DGC@dotx\relax\else
+			\DGC@rfp\DGC@dotx
+			\DGC@rfp\DGC@doty
+			\DGC@rfp\DGC@dota
+			\KRS@xn\xdef{DGC@point#1,#2@B\DGC@ax,\DGC@ay,\DGC@dx}{\DGC@dota(\DGC@dotx,\DGC@doty)}%
+			\edef\DGC@act{%
+				\noexpand\KRSextsave{DGC@point#1,#2@B\DGC@ax,\DGC@ay,\DGC@dx}{\DGC@dota(\DGC@dotx,\DGC@doty)}%
+			}\DGC@act
+		\fi
+	}%
+	\DGCdot@getlabel
+}
+\def\DGCdot@str@comp#1,#2,#3\@nil{%
+	\KRS@ifdef{DGC@point#1,#2@\DGCround\DGCstr@type\the\DGCstr@code}{%
+		\KRS@xne\DGCdot@setdata{DGC@point#1,#2@\DGCround\DGCstr@type\the\DGCstr@code}%
+	}{%
+		\DGCmessage{dot}%
+		\let\DGC@dotx\relax
+		\DGC@index=#2\relax
+		\KRSswitch{#1}%
+			\case{B}{\edef\DGC@act{\noexpand\DGCdot@firstbox\the\DGCstr@data\noexpand\@nil}}%
+			\case{E}{\edef\DGC@act{\noexpand\DGCdot@lastbox\the\DGCstr@data\noexpand\@nnil}}%
+			\case{S}{\edef\DGC@act{\noexpand\DGCdot@summit\the\DGCstr@data\noexpand\@nil}}%
+			\default{\def\DGC@doty{#1}\edef\DGC@act{\noexpand\DGCdot@findbox\the\DGCstr@data\noexpand\@nil}}%
+		\KRSendswitch
+		\DGC@act
+		\ifx\DGC@dotx\relax
+			\PackageWarning{DGC}{Point {#1,#2} is beyond a strand}%
+		\else
+			\DGC@rfp\DGC@dotx
+			\DGC@rfp\DGC@doty
+			\DGC@rfp\DGC@dota
+			\KRS@xn\xdef{DGC@point#1,#2@\DGCround\DGCstr@type\the\DGCstr@code}{\DGC@dota(\DGC@dotx,\DGC@doty)}%
+			\edef\DGC@act{%
+				\noexpand\KRSextsave{DGC@point#1,#2@\DGCround\DGCstr@type\the\DGCstr@code}{\DGC@dota(\DGC@dotx,\DGC@doty)}%
+			}\DGC@act
+		\fi
+	}%
+	\DGCdot@getlabel
+}
+\def\DGCdot@firstbox(#1,#2)(#3,#4)#5\@nil{%
+	\def\DGC@dotx{#3}\def\DGC@doty{#4}%
+	\FPsub\DGC@cx{#3}{#1}%
+	\FPsub\DGC@cy{#4}{#2}%
+	\DGC@vecttoangle\DGC@dota\DGC@cx\DGC@cy
+}
+\def\DGCdot@lastbox(#1,#2)#3(#4,#5)#6{%
+	\ifx#6\@nnil
+		\def\DGC@dotx{#1}\def\DGC@doty{#2}%
+		\FPsub\DGC@cx{#4}{#1}%
+		\FPsub\DGC@cy{#5}{#2}%
+		\DGC@vecttoangle\DGC@dota\DGC@cx\DGC@cy
+		\KRS@x\@gobble
+	\else
+		\KRS@x\@firstofone
+	\fi
+	{\DGCdot@lastbox(#4,#5)#6}%
+}
+\def\DGCdot@summit(#1,#2)(#3,#4){%
+	\def\DGC@ndy{0}%
+	\KRSifstreq\DGCstr@type{S}%
+		{\DGCdot@summit@seg(#3,#4)}%
+		{\DGCdot@PLsummit(#3,#4)}%
+}
+\def\DGCdot@PLsummit(#1,#2)(#3,#4)(#5,#6){%
+	\let\DGC@dy\DGC@ndy
+	\KRSifgt{#4}{#6}{\def\DGC@ndy{-1}}%
+	{\KRSiflt{#4}{#6}{\def\DGC@ndy{1}}%
+		{\def\DGC@ndy{0}}}%
+	\KRSifand{\KRSifnzero\DGC@dy}{\KRSifneq\DGC@dy\DGC@ndy}{%
+		\advance\DGC@index-1\relax
+		\ifnum\DGC@index=0\relax
+			\def\DGC@dotx{#3}%
+			\def\DGC@doty{#4}%
+			\FPsub\DGC@ax{#3}{#1}\FPsub\DGC@ay{#4}{#2}\DGC@vectnorm\DGC@ax\DGC@ay\DGC@ax\DGC@ay
+			\FPsub\DGC@bx{#5}{#3}\FPsub\DGC@by{#6}{#4}\DGC@vectnorm\DGC@bx\DGC@by\DGC@bx\DGC@by
+			\FPadd\DGC@cx\DGC@ax\DGC@bx
+			\FPadd\DGC@cy\DGC@ay\DGC@by
+			\DGC@vecttoangle\DGC@dota\DGC@cx\DGC@cy
+			\KRS@x\KRS@gobbletonil
+		\fi
+	}{}%
+	\@ifnextchar\KRS@lbr{\DGCdot@PLsummit(#3,#4)(#5,#6)}\KRS@gobbletonil
+}
+\def\DGCdot@summit@seg(#1)(#2)(#3)(#4)#5,#6,#7,#8(#9){%
+	\def\DGC@ax{#5}\def\DGC@ay{#6}%
+	\def\DGC@cx{#7}\def\DGC@cy{#8}%
+	\DGCdot@summit@vert(#1)(#2)(#3)(#4)\DGC@dy
+	\KRSifand{\KRSifnzero\DGC@dy}{\KRSifeq\DGC@dy\DGC@ndy}{%
+		\advance\DGC@index-1\relax
+		\ifnum\DGC@index=0\relax
+			\DGCdot@summit@set(#1)(#2)%
+		\fi
+	}{}%
+	\DGCdot@summit@vert(#4)(#3)(#2)(#1)\DGC@ndy
+	\KRSifpos\DGC@ax{%
+		\advance\DGC@index-1\relax
+		\ifnum\DGC@index=0\relax
+			\let\DGC@doty\DGC@ay
+			\DGCdot@summit@coord(#1)(#2)(#3)(#4)\DGC@ax
+		\fi
+	}{}%
+	\KRSiflt\DGC@cx{1}{%
+		\advance\DGC@index-1\relax
+		\ifnum\DGC@index=0\relax
+			\let\DGC@doty\DGC@cy
+			\DGCdot@summit@coord(#1)(#2)(#3)(#4)\DGC@cx
+		\fi
+	}{}%
+	\ifnum\DGC@index>0\relax\KRS@x\@firstofone\else\KRS@x\@secondoftwo\fi
+	{\@ifnextchar\KRS@lbr{\DGCdot@summit@seg(#4)(#9)}}%
+	\KRS@gobbletonil
+}
+\def\DGCdot@summit@vert(#1,#2)(#3,#4)(#5,#6)(#7,#8)#9{%
+	\KRSifeq{#2}{#4}{%
+		\KRSifor{\KRSifgt{#2}{#6}}{\KRSifand{\KRSifeq{#2}{#6}}{\KRSifgt{#2}{#8}}}
+			{\def#9{1}}%
+			{\def#9{-1}}%
+	}{\def#9{0}}%
+}
+\def\DGCdot@summit@set(#1,#2)(#3,#4){%
+	\def\DGC@dotx{#1}%
+	\def\DGC@doty{#2}%
+	\KRSifgt{#1}{#3}%
+		{\def\DGC@dota{180}}%
+		{\def\DGC@dota{0}}%
+}%
+\def\DGCdot@summit@coord(#1,#2)(#3,#4)(#5,#6)(#7,#8)#9{%
+	\DGCbeztocub{#1}{#3}{#5}{#7}\DGC@ay\DGC@by\DGC@cy\DGC@dy
+	\KRSccomp\DGC@ay\DGC@by\DGC@cy\DGC@dy{#9}\DGC@dotx
+	\FPmul\DGC@ay\DGC@ay{3}%
+	\FPadd\DGC@by\DGC@by\DGC@by
+	\KRSqcomp\DGC@ay\DGC@by\DGC@cy{#9}\DGC@dx
+	\KRSifpos\DGC@dx
+		{\def\KRS@dota{0}}%
+		{\def\KRS@dota{180}}%
+}
+\def\DGCdot@findbox(#1){%
+	\KRSifstreq\DGCstr@type{S}\DGCdot@find@box\DGCdot@PLfind@box
+}
+\def\DGCdot@PLfind@box(#1,#2)(#3,#4)(#5,#6){%
+	\KRSifeq\DGC@doty{#4}{%
+		\def\DGC@dotx{#3}%
+		\FPsub\DGC@ax{#3}{#1}\FPsub\DGC@ay{#4}{#2}\DGC@vectnorm\DGC@ax\DGC@ay\DGC@ax\DGC@ay
+		\FPsub\DGC@bx{#5}{#3}\FPsub\DGC@by{#6}{#4}\DGC@vectnorm\DGC@bx\DGC@by\DGC@bx\DGC@by
+		\FPadd\DGC@cx\DGC@ax\DGC@bx
+		\FPadd\DGC@cy\DGC@ay\DGC@by
+		\DGC@vecttoangle\DGC@dota\DGC@cx\DGC@cy
+		\@secondoftwo
+	}{%
+		\KRSifbetween\DGC@doty{#2}{#4}{\advance\DGC@index-1\relax}{}%
+		\ifnum\DGC@index>0\relax
+			\KRS@x\@firstofone
+		\else
+			\FPsub\DGC@ay{#4}{#2}%
+			\FPsub\DGC@by{#2}\DGC@doty
+			\KRSnum@lsolve\DGC@cy\DGC@ay\DGC@by
+			\FPsub\DGC@ax{#3}{#1}%
+			\KRSlcomp\DGC@ax{#1}\DGC@cy\DGC@dotx
+			\DGC@vecttoangle\DGC@dota\DGC@ax\DGC@ay
+			\KRS@x\@secondoftwo
+		\fi
+	}%
+	{\@ifnextchar\KRS@lbr{\DGCdot@PLfind@box(#3,#4)(#5,#6)}}%
+	\KRS@gobbletonil
+}
+\def\DGCdot@find@box(#1)(#2)(#3)(#4)#5,#6,#7,#8(#9){%
+	\def\DGC@ax{#5}\def\DGC@ay{#6}%
+	\def\DGC@cx{#7}\def\DGC@cy{#8}%
+	\KRSifpos\DGC@ax{\DGCdot@checkbox(#1)(,\DGC@ay)}{}%
+	\DGCdot@checkbox(,\DGC@ay)(,\DGC@cy)%
+	\KRSiflt\DGC@cx{1}{\DGCdot@checkbox(,\DGC@cy)(#4)}{}%
+	\ifnum\DGC@index>0\relax
+		\KRS@x\@firstofone
+	\else
+		\DGCdot@getx(#1)(#2)(#3)(#4)%
+		\KRS@x\@secondoftwo
+	\fi
+	{\@ifnextchar\KRS@lbr{\DGCdot@find@box(#4)(#9)}}%
+	\KRS@gobbletonil
+}
+\def\DGCdot@checkbox(#1,#2)(#3,#4){%
+	\KRSifbetween\DGC@doty{#2}{#4}{\advance\DGC@index-1\relax}{}%
+}
+\def\DGCdot@getx(#1,#2)(#3,#4)(#5,#6)(#7,#8){%
+	\DGCbeztocub{#2}{#4}{#6}{#8}\DGC@ax\DGC@bx\DGC@cx\DGC@dx
+	\FPsub\DGC@dy\DGC@dx\DGC@doty
+	\KRSnum@csolve\DGC@sola\DGC@solb\DGC@solc\DGC@ax\DGC@bx\DGC@cx\DGC@dy
+	\ifx\DGC@sola\relax\def\DGC@sola{2}\else\KRSifneg\DGC@sola{\def\DGC@sola{2}}{}\fi
+	\ifx\DGC@solb\relax\def\DGC@solb{2}\else\KRSifneg\DGC@solb{\def\DGC@solb{2}}{}\fi
+	\ifx\DGC@solc\relax\def\DGC@solc{2}\else\KRSifneg\DGC@solc{\def\DGC@solc{2}}{}\fi
+	\KRS@minmax\DGC@rega\DGC@regb\DGC@sola\DGC@solb
+	\KRSiflt\DGC@solc\DGC@rega{%
+		\let\DGC@regc\DGC@regb
+		\let\DGC@regb\DGC@rega
+		\let\DGC@rega\DGC@solc
+	}{%
+		\KRSiflt\DGC@solc\DGC@regb{%
+			\let\DGC@regc\DGC@regb
+			\let\DGC@regb\DGC@solc
+		}{%
+			\let\DGC@regc\DGC@solc
+		}%
+	}%
+	\advance\DGC@index 2\relax
+	\ifcase\DGC@index
+		\let\DGC@solc\DGC@regc
+	\or
+		\let\DGC@solc\DGC@regb
+	\or
+		\let\DGC@solc\DGC@rega
+	\fi
+	\KRSdccomp\DGC@ax\DGC@bx\DGC@cx\DGC@dx\DGC@solc\DGC@dy
+	\DGCbeztocub{#1}{#3}{#5}{#7}\DGC@ax\DGC@bx\DGC@cx\DGC@dx
+	\KRSdccomp\DGC@ax\DGC@bx\DGC@cx\DGC@dx\DGC@solc\DGC@cy
+	\KRSccomp\DGC@ax\DGC@bx\DGC@cx\DGC@dx\DGC@solc\DGC@dotx
+	\DGC@vecttoangle\DGC@dota\DGC@cy\DGC@dy
+}
+%% ==========================================
+%%  Module: DGC-coupons
+%% ==========================================
+\def\DGCcoupon{%
+	\DGCmessage{coupon}%
+	\@ifstar
+		{\DGCcpn@add[empty]}%
+		{\@ifnextchar\KRS@lsq
+			\DGCcpn@add
+			{\DGCcpn@add[solid]}%
+		}%
+}
+\def\DGCcpn@add[#1](#2,#3){%
+	\edef\DGCcpn@style{#1}%
+	\@ifnextchar\KRS@lbr
+		{\DGCcpn@add@corners(#2,#3)}%
+		{\DGCcpn@add@center(#2,#3)}%
+}
+\def\DGCcpn@add@corners(#1,#2)(#3,#4)#5{%
+	\advance\DGC@objects 1\relax
+	\FPadd\DGC@cx{#1}{#3}\FPmul\DGC@cx\DGC@cx{0.5}\DGC@rfp\DGC@cx
+	\FPadd\DGC@cy{#2}{#4}\FPmul\DGC@cy\DGC@cy{0.5}\DGC@rfp\DGC@cy
+	\DGC@tokreg={#5}%
+	\KRS@xn\edef{DGCobj\the\DGC@objects}%
+		{C\DGCcpn@style(#1,#2)(#3,#4)(\DGC@cx,\DGC@cy)\the\DGC@tokreg}%
+	\KRSifgt{#3}{#1}{\def\DGC@ax{#1}\def\DGC@bx{#3}}{\def\DGC@ax{#3}\def\DGC@bx{#1}}%
+	\KRSifgt{#4}{#2}{\def\DGC@ay{#2}\def\DGC@by{#4}}{\def\DGC@ay{#4}\def\DGC@by{#2}}%
+	\DGC@updatesize{\DGC@ax\DGCxunit}{\DGC@ay\DGCyunit}{\DGC@bx\DGCxunit}{\DGC@by\DGCyunit}%
+}
+\def\DGCcpn@add@center(#1,#2)#3{%
+	\setlength\DGC@lenleft{#1\DGCxunit-(\widthof{#3}/2)-5pt}%
+	\setlength\DGC@lenright{#1\DGCxunit+(\widthof{#3}/2)+5pt}%
+	\setlength\DGC@lenbot{#2\DGCyunit-(\totalheightof{#3}/2)-5pt}%
+	\setlength\DGC@lentop{#2\DGCyunit+(\totalheightof{#3}/2)+5pt}%
+	\advance\DGC@objects 1\relax
+	\DGC@tokreg={#3}%
+	\KRS@xn\edef{DGCobj\the\DGC@objects}%
+		{C\DGCcpn@style(\the\DGC@lenleft,\the\DGC@lenbot)(\the\DGC@lenright,\the\DGC@lentop)(#1,#2)\the\DGC@tokreg}%
+	\DGC@updatesize{\the\DGC@lenleft}{\the\DGC@lenbot}{\the\DGC@lenright}{\the\DGC@lentop}%
+}
+%% ==========================================
+%%  Module: DGC-drawing
+%% ==========================================
+\def\DGCdraw@object#1{%
+	\KRSswitchx{#1}%
+		\case{S}{\DGCdraw@strand}%
+		\case{P}{\DGCdraw@PLstrand}%
+		\case{B}{\DGCdraw@bubble}%
+		\case{D}{\DGCdraw@dot}%
+		\case{C}{\DGCdraw@coupon}%
+		\default{\KRS@gobbletonil}%
+	\KRSendswitch
+}
+\def\DGCdraw@strand#1#2#3#4{%
+	\DGCgetstrandstyle{#1}\DGCdraw@strstyle\DGCdraw@ribstyle
+	\KRS@x\pscustom\DGCdraw@strstyle{%
+		\DGCdraw@@strand#2%
+		\ifx\DGCdraw@ribstyle\relax\else
+			\KRS@x\stroke\DGCdraw@ribstyle
+		\fi
+	}%
+	\KRSifnempty{#3}{\uput#3}{}%
+	\KRSifnempty{#4}{\uput#4}{}%
+	\KRS@gobbletonil
+}
+\def\DGCdraw@@strand(#1)(#2){%
+	\newpath\moveto(#2)%
+	\DGCdraw@@strand@next
+}
+\def\DGCdraw@@strand@next(#1)(#2)(#3)#4(#5){%
+	\curveto(#1)(#2)(#3)%
+	\@ifnextchar\KRS@lbr{\DGCdraw@@strand@next(#5)}{}%
+}
+\def\DGCdraw@PLstrand#1#2#3#4{%
+	\DGCgetstrandstyle{#1}\DGCdraw@strstyle\DGCdraw@ribstyle
+	\KRS@x\pscustom\DGCdraw@strstyle{%
+		\DGCdraw@@PLstrand#2%
+		\ifx\DGCdraw@ribstyle\relax\else
+			\KRS@x\stroke\DGCdraw@ribstyle
+		\fi
+	}%
+	\KRSifnempty{#3}{\uput#3}{}%
+	\KRSifnempty{#4}{\uput#4}{}%
+	\KRS@gobbletonil
+}
+\def\DGCdraw@@PLstrand(#1)(#2){%
+	\newpath\moveto(#2)%
+	\DGCdraw@@PLstrand@next
+}
+\def\DGCdraw@@PLstrand@next(#1)(#2){%
+	\lineto(#1)%
+	\@ifnextchar\KRS@lbr{\DGCdraw@@PLstrand@next(#2)}{}%
+}
+\def\DGCdraw@bubble#1#2{%
+	\DGCgetlinestyle{#1}\DGCdraw@strstyle
+	\KRS@x\pscircle\DGCdraw@strstyle#2%
+	\KRS@gobbletonil
+}
+\def\DGCdraw@coupon#1(#2,#3)(#4,#5)(#6,#7)#8\@nil{%
+	\DGCgetcouponstyle{#1}\DGCdraw@cpnstyle
+	\psclip{\KRS@x\psline\DGCdraw@cpnstyle(#2,#3)(#2,#5)(#4,#5)(#4,#3)(#2,#3)}%
+		\rput(#6,#7){#8}%
+	\endpsclip
+}
+\def\DGCdraw@dot#1#2#3#4#5#6#7\@nil{%
+	\DGCgetdotstyle{#1}\DGCdraw@dotstyle\DGCdraw@dotsize\DGCdraw@labelsep
+	\rput{#2}#3{%
+		\KRSswitchx{#4}%
+			\case{o}{%
+				\KRS@x\pscircle\DGCdraw@dotstyle(0,0)\DGCdraw@dotsize
+			}\case{x}{%
+				\KRS@x\psline\DGCdraw@dotstyle(-\DGCdraw@dotsize,-\DGCdraw@dotsize)(\DGCdraw@dotsize,\DGCdraw@dotsize)%
+				\KRS@x\psline\DGCdraw@dotstyle(-\DGCdraw@dotsize,\DGCdraw@dotsize)(\DGCdraw@dotsize,-\DGCdraw@dotsize)%
+			}\case{|}{%
+				\KRS@x\psline\DGCdraw@dotstyle(0,-\DGCdraw@dotsize)(0,\DGCdraw@dotsize)%
+			}\case{>,<}{%
+				\PackageWarning{DGC}{Arrows not implemented yet}%
+		}\KRSendswitch
+	}%
+	\KRSifnempty{#7}{%
+		\rput(#5,#6){#7}%
+	}{}%
+}
+%% ==========================================
+%%  Module: DGC-main
+%% ==========================================
+\newif\ifDGCmessages
+\DGCmessagestrue
+\def\DGCmessage{\@ifnextchar\KRS@lsq{\DGC@message}{\DGC@message[A]}}
+\def\DGC@message[#1]#2{%
+	\ifDGCmessages\KRSswitchx{#1}%
+		\case{B}{\message{(DGC: #2}}%
+		\case{E}{\message{#2)^^J}}%
+		\case{C}{\message{#2}}%
+		\default{\message{(DGC: #2)}}%
+	\KRSendswitch\fi
+}
+\newcount\DGC@objects
+\newcount\DGC@index
+\DGC@objects=0\relax
+\newlength\DGC@lentop
+\newlength\DGC@lenright
+\newlength\DGC@lenleft
+\newlength\DGC@lenbot
+\newlength\DGC@lenreg
+\newtoks\DGC@tokreg
+\def\DGC@updatesize@first#1#2#3#4{%
+	\edef\DGC@left{#1}\edef\DGC@bot{#2}%
+	\edef\DGC@right{#3}\edef\DGC@top{#4}%
+	\let\DGC@updatesize\DGC@updatesize@next
+}
+\def\DGC@updatesize@next#1#2#3#4{%
+	\ifdim\DGC@left>#1\relax\edef\DGC@left{#1}\fi
+	\ifdim\DGC@bot>#2\relax\edef\DGC@bot{#2}\fi
+	\ifdim\DGC@right<#3\relax\edef\DGC@right{#3}\fi
+	\ifdim\DGC@top<#4\relax\edef\DGC@top{#4}\fi
+}
+\let\DGC@updatesize\DGC@updatesize@first
+\def\DGC@getmargins{%
+	\OPTifset{margin}{%
+		\edef\DGC@act{\noexpand\DGC@get@margins\OPTget{margin},,,,\noexpand\@nil}%
+		\DGC@act
+		\def\DGC@rega{*}%
+		\ifx\DGC@rega\DGC@top\else\OPTset{margin-top}{\DGC@top}\fi
+		\ifx\DGC@rega\DGC@bot\else\OPTset{margin-bottom}{\DGC@bot}\fi
+		\ifx\DGC@rega\DGC@left\else\OPTset{margin-left}{\DGC@left}\fi
+		\ifx\DGC@rega\DGC@right\else\OPTset{margin-right}{\DGC@right}\fi
+	}{}%
+	\let\DGC@top\@empty
+}
+\def\DGC@get@margins#1,#2,#3,#4,#5\@nil{%
+	\edef\DGC@top{#1}%
+	\def\DGC@rega{#2}%
+	\ifx\DGC@rega\@empty
+		\let\DGC@bot\DGC@top
+		\let\DGC@left\DGC@top
+		\let\DGC@right\DGC@top
+	\else
+		\edef\DGC@right{#2}%
+		\def\DGC@rega{#3}%
+		\ifx\DGC@rega\@empty
+			\let\DGC@bot\DGC@top
+			\let\DGC@left\DGC@right
+		\else
+			\edef\DGC@bot{#3}%
+			\def\DGC@rega{#4}%
+			\ifx\DGC@rega\@empty
+				\let\DGC@left\DGC@right
+			\else
+				\edef\DGC@left{#4}%
+			\fi
+		\fi
+	\fi
+}
+\def\DGC@getunits{%
+	\OPTifset{scale}{%
+		\edef\DGC@act{\noexpand\DGC@get@units\OPTget{scale},,\noexpand\@nil}%
+		\DGC@act
+	}{%
+		\let\DGC@xscale\@ne
+		\let\DGC@yscale\@ne
+	}%
+	\setlength\DGCxunit{\DGC@xscale cm}%
+	\setlength\DGCyunit{\DGC@yscale cm}%
+	\OPTifset{ratio}{%
+		\edef\DGC@xscale{\OPTget{ratio}}%
+		\KRSifgt{\DGC@xscale}{1}%
+			{\setlength\DGCxunit{\DGCxunit / \real{\DGC@xscale}}}%
+			{\setlength\DGCyunit{\DGCyunit * \real{\DGC@xscale}}}%
+	}{}%
+}
+\def\DGC@get@units#1,#2,#3\@nil{%
+	\edef\DGC@xscale{#1}%
+	\def\DGC@rega{#2}%
+	\ifx\DGC@rega\@empty
+		\let\DGC@yscale\DGC@xscale
+	\else
+		\edef\DGC@yscale{#2}%
+	\fi
+}
+\def\DGCpicture{%
+	\DGCmessage[B]{picture}%
+	\begin{OPT}{diagram}%
+	\@ifnextchar\KRS@lsq{%
+		\DGCpict@options
+	}{%
+		\DGC@getunits
+		\DGC@getmargins
+	}%
+}
+\def\DGCpict@options[#1]{%
+	\OPTparse{#1}%
+	\DGC@getunits
+	\DGC@getmargins
+}
+\def\endDGCpicture{\endDGC@picture 1}
+\def\endDGC@picture#1{%
+	\ifx\DGC@left\@empty\else
+		\setlength\DGC@lenbot{\DGC@bot - \OPTget{margin-bottom}}%
+		\setlength\DGC@lentop{\DGC@top + \OPTget{margin-top}}%
+		\setlength\DGC@lenleft{\DGC@left - \OPTget{margin-left}}%
+		\setlength\DGC@lenright{\DGC@right + \OPTget{margin-right}}%
+		\ifx 1#1\relax
+			\setlength\DGC@lenreg{0.25\baselineskip + 0.5\DGC@lenbot - 0.5\DGC@lentop}%
+			\pspicture[shift=\the\DGC@lenreg](\DGC@lenleft,\DGC@lenbot)(\DGC@lenright,\DGC@lentop)%
+		\else
+			\pspicture(\DGC@lenleft,\DGC@lenbot)(\DGC@lenright,\DGC@lentop)%
+		\fi
+		\psset{xunit=\DGCxunit,yunit=\DGCyunit}%
+		\DGC@index=0\relax
+		\loop\ifnum\DGC@index<\DGC@objects
+			\advance\DGC@index 1\relax
+			\KRS@xne\DGCdraw@object{DGCobj\the\DGC@index}\@nil
+		\repeat
+		\endpspicture
+	\fi
+	\end{OPT}%
+	\DGCmessage[E]{}%
+}
+\KRS@xn\let{DGCpicture*}\DGCpicture
+\KRS@xn\def{endDGCpicture*}{\endDGC@picture 0}
+\let\DGC\DGCpicture
+\let\endDGC\endDGCpicture
+\edef\DGC@act{%
+	\noexpand\let\expandafter\noexpand\csname DGC*\endcsname\noexpand\DGCpicture
+	\noexpand\let\expandafter\noexpand\csname endDGC*\endcsname\expandafter\noexpand\csname endDGCpicture*\endcsname
+}
+\DGC@act
+%% ==========================================
+%%  Module: DGC-parameters
+%% ==========================================
+\newlength\DGCxunit
+\newlength\DGCyunit
+\def\DGCunit{%
+	\afterassignment\DGC@@setunits
+	\DGCxunit
+}
+\def\DGC@@setunits{\DGCyunit=\DGCxunit}%
+\OPTset{margin-left}{0pt}
+\OPTset{margin-bottom}{0pt}
+\OPTset{margin-right}{0pt}
+\OPTset{margin-top}{0pt}
+\newlength\DGCstringwidth		\setlength\DGCstringwidth{1pt}
+\newlength\DGCstringdotsize	\setlength\DGCstringdotsize{3pt}
+\newlength\DGCribbonwidth		\setlength\DGCribbonwidth{3pt}
+\newlength\DGCribbonbdrywidth	\setlength\DGCribbonbdrywidth{0.75pt}
+\newlength\DGCribbondotsize	\setlength\DGCribbondotsize{4pt}
+\newlength\DGClabelsep			\setlength\DGClabelsep{3pt}
+\OPTset{stringstyle}{solid}
+\OPTset{stringwidth}{\DGCstringwidth}
+\OPTset{stringdotsize}{\DGCstringdotsize}
+\OPTset{stringcolor}{black}
+\OPTset{ribbonstyle}{solid}
+\OPTset{ribbonwidth}{\DGCribbonwidth}
+\OPTset{ribboncolor}{lightred}
+\OPTset{ribbonbdrycolor}{red}
+\OPTset{ribbonbdrywidth}{\DGCribbonbdrywidth}
+\OPTset{ribbondotsize}{\DGCribbondotsize}
+\OPTset{labelsep}{\DGClabelsep}
+\newlength\DGCcouponframewidth		\setlength\DGCcouponframewidth{0.5pt}
+\newrgbcolor{lightred}{1 0.7 0.6}%
+\newstrandstyle{string}{type=string}%
+\newstrandstyle{ribbon}{type=ribbon}%
+\newstrandstyle{Red}{type=ribbon,ribboncolor=lightred,color=red,style=solid}%
+\newstrandstyle{black}{type=string,color=black,style=solid}%
+\newcouponstyle{solid}{linecolor=black,linestyle=solid,linewidth=\DGCcouponframewidth,fillstyle=solid,fillcolor=white}
+\newcouponstyle{empty}{linestyle=none,fillstyle=none}
+\newcouponstyle{frameonly}{linecolor=black,linestyle=solid,linewidth=\DGCcouponframewidth,fillstyle=none}
+\newcouponstyle{noframe}{linestyle=none,fillstyle=solid,fillcolor=white}
+%% ==========================================
+%%  The end of package
+%% ==========================================
+\makeatother
+\endinput
+\bye

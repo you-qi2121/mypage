@@ -1,0 +1,106 @@
+\documentclass[12pt]{article}
+\title{}
+\date{}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,mathrsfs,xypic}
+\usepackage{times}
+%\usepackage{hyperref}
+%\usepackage{CJKutf8}
+\textwidth=16cm
+\textheight=23cm
+\voffset=-1.8cm
+\hoffset=-1.1cm
+%------------------------------------------------------------------------------%
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{Ex}{Example}
+\newtheorem*{ex}{Exercise}
+
+\newcommand{\ba}{\beta}
+\newcommand{\da}{\delta}
+\newcommand{\Da}{\Delta}
+\newcommand{\ta}{\theta}
+\newcommand{\Ta}{\Theta}
+\newcommand{\la}{\lambda}
+\newcommand{\Oa}{\Omega}
+\newcommand{\vphi}{\varphi}
+
+\newcommand{\pl}{\partial}
+\newcommand{\fc}{\frac}
+\newcommand{\na}{\nabla}
+\newcommand{\ol}{\overline}
+\newcommand{\lt}{\left}
+\newcommand{\rt}{\right}
+\newcommand{\rw}{\rightarrow}
+
+\newcommand{\mf}{\mathbf}
+\newcommand{\mb}{\mathbb}
+\newcommand{\ml}{\mathcal}
+
+\newcommand{\bs}{\boldsymbol}
+\newcommand{\wt}{\widetilde}
+
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+{\Large \bf Exercises for Week 2}
+\end{center}
+The work handed in should be entirely your own. You can consult Dummit and Foote, Artin and/or the class notes but nothing else. To receive full credit, justify your answer in a clear and logical way. Due Sept. 18.
+
+\begin{enumerate}
+\item Show by example for subgroups in $S_3$ that, if $H$ and $K$ are subgroups, then $H\cup K$ is not necessarily a subgroup.
+
+\item Show that if $(A,+)$ is an abelian group and $H$, $K$ are subgroups, then 
+$$H+K:=\{x\in A|x=h+k~ \textrm{for some $h\in H$, $k\in K$}\}$$ is a subgroup, and it is the \emph{smallest} subgroup that contains both $H$ and $K$.
+
+\item 
+\begin{enumerate}
+\item Prove that, if $(G,\star_G)$, $(H,\star_H)$ are given two groups, then $G\times H$ with the product structure $\star$ defined by
+$$(g_1,h_1)\star (g_2,h_2):=(g_1\star_G g_2, h_1 \star h_2)$$
+for any $(g_1,h_1),(g_2,h_2)\in G\times H$ is a group. This is called the \emph{product group} of $G$ and $H$. 
+\item Show that $G\times \{e_H\}$ is a subgroup of $G\times H$.
+\item Consider $G=H=(\mathbb{Z},+)$. Construct five different subgroups of $\mathbb{Z}\times \mathbb{Z}$.
+\end{enumerate}
+
+\item Perform the Euclidean algorithm to find the $\gcd$ of
+
+(1). $90$ and $300$.
+
+(2). $60$ and $17$.
+
+\item Consider the set $H$ of matrices
+$$
+\left\{
+\left(
+\begin{tabular}{cc}
+$1$ & $a$\\$0$ & $1$
+\end{tabular}
+\right)
+|a\in \mathbb{R}
+\right\}\subset M_2(\mathbb{R})
+$$
+under the usual matrix multiplication. 
+\begin{enumerate}
+\item Prove that it is a subgroup of $GL(2,\mathbb{R})$. Is it abelian? Can you identify it with a more familiar group?
+\item Find a countably infinite subgroup of $H$.
+\end{enumerate}
+\item Consider the maps\\
+ (1) $f: \mathbb{R}^2\longrightarrow \mathbb{R}, (x,y)\mapsto x^2+y^2$.\\
+ (2) $f: \mathbb{R}\longrightarrow \mathbb{R}, x\mapsto x^3$\\
+ (3) $f: \mathbb{C}\longrightarrow \mathbb{C}, z\mapsto z^3$\\
+Determine the equivalence relation on the respective domains determined by $f$. Namely, explicitly describe equivalence classes coming from the map $f$.
+
+\item Show that if $a=a_n10^n+a_{n-1}10^{n-1}+\dots+a_110+a_0$, where each $a_i\in \{0,1,2,\dots, 9\}$. Then
+\[a\equiv a_n+a_{n-1}+\dots+ a_1+a_0\quad (\mathrm{mod}{9}). \]
+
+\item Use the theorem on classification of subgroups of $\mathbb{Z}$ to prove that, if $a_1, a_2,\dots , a_n \in \mathbb{Z}$, then
+\[\gcd(a_1,a_2,\dots, a_n)=\gcd(\gcd(a_1,\dots, a_k),\gcd(a_{k+1},\dots, a_n))\]
+for any $1\leq k \leq n$.
+\end{enumerate}
+\end{document} 

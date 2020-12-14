@@ -1,0 +1,93 @@
+\documentclass[12pt]{article}
+\title{}
+\date{}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,mathrsfs}
+\usepackage{times}
+\usepackage{diagcat}
+%\usepackage{hyperref}
+%\usepackage{CJKutf8}
+\textwidth=16cm
+\textheight=23cm
+\voffset=-1.8cm
+\hoffset=-1.1cm
+%------------------------------------------------------------------------------%
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{Ex}{Example}
+\newtheorem*{ex}{Exercise}
+
+\newcommand{\ba}{\beta}
+\newcommand{\da}{\delta}
+\newcommand{\Da}{\Delta}
+\newcommand{\ta}{\theta}
+\newcommand{\Ta}{\Theta}
+\newcommand{\la}{\lambda}
+\newcommand{\Oa}{\Omega}
+\newcommand{\vphi}{\varphi}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\lra}{\longrightarrow}
+
+\newcommand{\pl}{\partial}
+\newcommand{\fc}{\frac}
+\newcommand{\na}{\nabla}
+\newcommand{\ol}{\overline}
+\newcommand{\lt}{\left}
+\newcommand{\rt}{\right}
+\newcommand{\rw}{\rightarrow}
+
+\newcommand{\mf}{\mathbf}
+\newcommand{\mb}{\mathbb}
+\newcommand{\ml}{\mathcal}
+
+\newcommand{\bs}{\boldsymbol}
+\newcommand{\wt}{\widetilde}
+
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+{\Large \bf Homework 6}
+\end{center}
+The work handed in should be entirely your own. You can consult any abstract algebra textbook (e.g.~Dummit and Foote, Artin), the course textbook and/or the class notes but nothing else. To receive full credit, justify your answer in a clear and logical way. Due April.~25.
+
+\begin{enumerate}
+\item Read the textbook Chapter 5 on classification of Coxeter groups.
+\item Show that the reflection about a root $\mathbf{r}$
+\[
+S_{\mathbf{r}}(\mathbf{v}):=\mathbf{v}-2\frac{(\mathbf{v},\mathbf{r})}{||\mathbf{r}||}\mathbf{r}
+\]
+is an orthogonal transformation.
+
+\item Suppose $\Pi$ is a base for $\Delta$.
+\begin{enumerate}
+\item[(a)] If $\mathbf{r}\in \Delta^+$, show that $\mathbf{r}\in \Pi$ if and only if $\mathbf{r}$ is not a strictly positive linear combination of two or more positive roots.
+\item[(b)] Use part (a) to give an alternative proof of the uniqueness of $\Pi$.
+\end{enumerate}
+
+\item Show that the vector $\rho$ we defined in class
+\[
+\rho:=\frac{1}{2}\sum_{\mathbf{r}\in \Delta^+} \mathbf{r}
+\]
+satisfies $(\rho,\mathbf{r})>0$ for all $\mathbf{r}\in \Delta^+$.
+
+\item Let $H_2^m$ be the dihedral reflection group on $\R^2$. Find a set of simple roots for $H_2^m$ and compute its Coxeter graph. Compute the determinant of the Coxeter matrix.
+
+\item This is a continuation of the exercise from last week about $S_4$. Use what you have proven there to compute the Coxeter graph for $S_4$. Compute the determinant of the Coxeter matrix. 
+
+\item Verify the determinant formula for $I_4$.
+
+
+
+
+\end{enumerate}
+\end{document} 

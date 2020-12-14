@@ -1,0 +1,117 @@
+\documentclass[12pt]{article}
+\title{}
+\date{}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,mathrsfs}
+\usepackage{times}
+%\usepackage{hyperref}
+%\usepackage{CJKutf8}
+\textwidth=16cm
+\textheight=23cm
+\voffset=-1.8cm
+\hoffset=-1.1cm
+%------------------------------------------------------------------------------%
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{Ex}{Example}
+\newtheorem*{ex}{Exercise}
+
+\newcommand{\ba}{\beta}
+\newcommand{\da}{\delta}
+\newcommand{\Da}{\Delta}
+\newcommand{\ta}{\theta}
+\newcommand{\Ta}{\Theta}
+\newcommand{\la}{\lambda}
+\newcommand{\Oa}{\Omega}
+\newcommand{\vphi}{\varphi}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\lra}{\longrightarrow}
+
+\newcommand{\pl}{\partial}
+\newcommand{\fc}{\frac}
+\newcommand{\na}{\nabla}
+\newcommand{\ol}{\overline}
+\newcommand{\lt}{\left}
+\newcommand{\rt}{\right}
+\newcommand{\rw}{\rightarrow}
+
+\newcommand{\mf}{\mathbf}
+\newcommand{\mb}{\mathbb}
+\newcommand{\ml}{\mathcal}
+
+\newcommand{\bs}{\boldsymbol}
+\newcommand{\wt}{\widetilde}
+
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+{\Large \bf Homework 3}
+\end{center}
+The work handed in should be entirely your own. You can consult any abstract algebra textbook (e.g.~Dummit and Foote, Artin), the course textbook and/or the class notes but nothing else. To receive full credit, justify your answer in a clear and logical way. Due Mar. 2.
+
+\begin{enumerate}
+\item Let $A$ and $B$ be matrices that are orthogonally conjugate to each other, i.e., there is a $g\in O_n(\R)$ such that $A=gBg^{-1}$.
+\begin{enumerate}
+\item[(a)] Show that $\mathrm{Tr}(A^tA)=\mathrm{Tr}(B^tB)$.
+\item[(b)] Show that $\sum_{i,j=1}^n A_{ij}^2=\sum_{i,j=1}^n B_{ij}^2$.
+\end{enumerate}
+
+\item Let $S=\mathrm{M}_{m\times n}(\R)$ be the set of $m\times n$-matrices with coefficients in $\R$, and consider the group 
+$$
+G=GL_m(\R)\times GL_n(\R)=\{(g,h)|g\in GL_n(\R),h\in GL_m(\R)\}
+$$ the cross product of the groups. Consider
+\[
+*:G\times S\lra S\quad, (g,h)*s:= gsh^{-1} .
+\]
+\begin{enumerate}
+\item[(a)] Show that $*$ defines a group action.
+\item[(b)] Describe the decomposition of $S$ into $G$ orbits.
+\item[(c)] Suppose $m\leq n$. What is the stablizer group of the matrix $[I_m|0]$?
+\end{enumerate}
+
+\item Let $G$ be an abelian group. In class we defined the left, right and adjoint action of $G$ on itself. How many distinct orbits are there for each action?
+
+\item The group of orthogonal transformations $O_n(\R)$ acts on the set of lines in $\R^n$. 
+\begin{enumerate}
+\item Write this action in terms of the formal definition of group actions on a set we defined in class.
+\item Let $l=\{(a,0,\dots,0)|a\in \R\}$ be the line of the first coordinate axis. Find the stablizer group of $l$.
+\end{enumerate}
+
+\item Show that $H_2^n$ has $C_2^n$ as a normal subgroup inside it.
+
+\item
+\begin{enumerate}
+\item[(a)] Prove that, given any element of a group $g\in G$, there is a unique group homomorphism $\phi_g$ determined by $g$:
+\[
+\phi_g: \Z\lra G,\quad n\mapsto g^n.
+\]
+\item[(b)] Consider $G=SO(2,\mathbb{R})$, and pick 
+    $$g=
+    \left(
+    \begin{array}{cc}
+    \cos \theta &-\sin \theta\\
+    \sin \theta & \cos \theta
+    \end{array}
+    \right)
+    $$
+   Here $\theta$ is a fixed angle. Write down explicitly the group homomorphism determined by this element. When is this homomorphism injective?
+\end{enumerate}
+
+\item In this exercise, you will show one important ingredient in the course of our classification of finite subgroups of $SO_3(\R)$. Recall that a polyhedron in $\R^3$ is called \emph{regular} if for the same number of edges emanate from each vertex, and each facet of the polyhedron has the same number of edges. 
+
+Use Euler's formula 
+\[
+V-E+F=2,
+\]
+where $V$ is the number of vertices of (any) polyhedron, $E$ is the number of edges and $F$ is the number of facets, to show that there are only five regular polyhedra in $\R^3$.
+\end{enumerate}
+\end{document} 

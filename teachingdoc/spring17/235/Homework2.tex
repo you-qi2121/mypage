@@ -1,0 +1,150 @@
+\documentclass[12pt]{article}
+\title{}
+\date{}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,mathrsfs}
+\usepackage{times}
+%\usepackage{hyperref}
+%\usepackage{CJKutf8}
+\textwidth=16cm
+\textheight=23cm
+\voffset=-1.8cm
+\hoffset=-1.1cm
+%------------------------------------------------------------------------------%
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{Ex}{Example}
+\newtheorem*{ex}{Exercise}
+
+\newcommand{\ba}{\beta}
+\newcommand{\da}{\delta}
+\newcommand{\Da}{\Delta}
+\newcommand{\ta}{\theta}
+\newcommand{\Ta}{\Theta}
+\newcommand{\la}{\lambda}
+\newcommand{\Oa}{\Omega}
+\newcommand{\vphi}{\varphi}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\lra}{\longrightarrow}
+
+\newcommand{\pl}{\partial}
+\newcommand{\fc}{\frac}
+\newcommand{\na}{\nabla}
+\newcommand{\ol}{\overline}
+\newcommand{\lt}{\left}
+\newcommand{\rt}{\right}
+\newcommand{\rw}{\rightarrow}
+
+\newcommand{\mf}{\mathbf}
+\newcommand{\mb}{\mathbb}
+\newcommand{\ml}{\mathcal}
+
+\newcommand{\bs}{\boldsymbol}
+\newcommand{\wt}{\widetilde}
+
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+{\Large \bf Homework 2}
+\end{center}
+The work handed in should be entirely your own. You can consult any abstract algebra textbook (e.g.~Dummit and Foote, Artin), the course textbook and/or the class notes but nothing else. To receive full credit, justify your answer in a clear and logical way. Due Feb. 16.
+
+\begin{enumerate}
+
+\item Construct an injective group homomorphism from the cyclic group $C_4$ to the symmetric group $S_4$. 
+Describe its image in $S_4$ in  terms of the cycle notation. How many different injective homomorphisms 
+from $C_4$ to $S_4$ can you define? 
+
+\item Let $V$ be a Euclidean vector space, and let $\mathrm{Iso}(V):=\{\phi|\phi~\textrm{is an isometry of $V$}\}$. 
+\begin{enumerate}
+\item Prove that $\mathrm{Iso}(V)$ forms a group under composition of maps.
+\item Let $\mathrm{Tran}(V)\subset \mathrm{Iso}(V)$ be the subset of maps that are translations. Recall that a translation on $V$ is a map $t_{\mathbf{v}_0}: V\lra V,~\mathbf{v}\mapsto \mathbf{v}+\mathbf{v}_0$ for some fixed vector $\mathbf{v}_0$ determined by $t_{\mathbf{v}_0}$. Show that $\mathrm{Tran}(V)$ is a normal subgroup of $\mathrm{Iso}(V)$.
+\end{enumerate}
+
+\item Prove the following claim we have made in class. 
+
+Let $V$ be a Euclidean vector space with an inner product $\cdot$ (to differentiate with the standard inner product on $\R^n$, let's use a different notation here):
+\[
+\cdot: V\times V\lra \R, \quad \mathbf{u}, \mathbf{v}\mapsto \mathbf{u}\cdot \mathbf{v}.
+\]
+Suppose $\beta=\{\mathbf{v}_1,\dots, \mathbf{v}_n\}$ is an orthonormal basis for $V$, i.e., it satisfies
+\[
+\mathbf{v}_i\cdot \mathbf{v}_j=\delta_{i,j}.
+\]
+Prove that the parametrization isomorphism
+\[
+\Psi_{\beta}: V\lra \R^n, \quad \mathbf{v}=\sum_{i=1}^n a_i\mathbf{v}_i\mapsto (a_1,\dots, a_n)^t
+\]
+is an \emph{isometry} in the sense that, for any $\mathbf{u}, \mathbf{v} \in V$, we have
+\[
+\mathbf{u}\cdot \mathbf{v} = (\Psi_\beta(\mathbf{u}), \Psi_\beta(\mathbf{v}))_{\R^n},
+\] 
+where the right hand side stands for the standard inner product for vectors in $\R^n$.
+
+
+\item Recall that to prove a statement that involves a natural number $n$, the method of induction can be used: 
+\begin{enumerate} 
+\item Show that the statement holds for $n =1$. 
+\item Assuming that the statement holds for a given natural $n$, show that it also holds for $n+1$. 
+\end{enumerate} 
+From here it follows that the statement holds for all natural $n$.  
+
+
+Prove by induction that for all natural numbers $n$, and a given angle $0 \leq \vartheta < 2 \pi$, the following matrix equality holds: 
+\[ \left( \begin{array}{cc}  
+        \cos{\vartheta}  &  - \sin{\vartheta} \\ 
+        \sin{\vartheta}   &    \cos{\vartheta}   \end{array} \right)^n  = 
+        \left( \begin{array}{cc} 
+        \cos{n \vartheta} & - \sin{n \vartheta} \\ 
+        \sin{n \vartheta}  &   \cos{n \vartheta}  \end{array}  \right)  . \] 
+Give a geometric interpretation of this identity. 
+
+\item Diagonalize the matrix
+\[ 
+S_1 = 
+\left( 
+\begin{array}{cc}  
+-\frac{1}{2} & \frac{\sqrt{3}}{2} \\ 
+\frac{\sqrt{3}}{2} & \frac{1}{2}  
+\end{array} 
+\right)  
+\] 
+
+
+\item Consider the reflections in $\R^2$ given by the matrices 
+\[ \begin{array}{cc} S_0 = \left( \begin{array}{cc} 
+               1  & 0  \\ 
+              0   & -1 \end{array} 
+            \right)       &  
+            S_1 = \left( \begin{array}{cc}  
+            -\frac{1}{2} & \frac{\sqrt{3}}{2} \\ 
+            \frac{\sqrt{3}}{2} & \frac{1}{2}  \end{array} 
+            \right)  \\  \end{array}  \] 
+Check that  $S_0$ and $S_1$ are reflections and find the reflection axes. What group do they generate? 
+Find all group elements and write down a multiplication table between them. 
+
+{\it Hint:} Since $S_0^2 = S_1^2 = 1$,  the only nontrivial elements 
+of the group generated by $S_0$ and $S_1$ are the products where $S_0$ and $S_1$ alternate.  
+Find all distinct elements of this form and determine their products. 
+
+\item In this exercise, we will fill out the details of a Lemma we claimed in class.
+
+Consider $\R^n$ with the standard Euclidean inner product. An operator $T:\R^n \lra \R^n$ is called \emph{normal} if $T^tT=TT^t$. For instance, if $T$ is orthogonal, it is normal.
+\begin{enumerate}
+\item[(i)] If $\mathbf{u}$ is an eigenvector for $T$ with eigenvalue $\lambda\in \R$, i.e.,
+\[T(\mathbf{u})=\lambda \mathbf{u}\]
+show that $\mathbf{u}$ is also an eigenvector for $T^t$ with the same eigenvalue. (Hint: Prove that $||T^t(\mathbf{u})-\lambda \mathbf{u} \||=0$.)
+\item[(ii)] Show that if $\mathbf{u}$ and $\mathbf{v}$ are eigenvectors of $T$ with distinct eigenvalues $\lambda$ and $\mu$ respectively, then $\mathbf{u}\perp \mathbf{v}$.
+\end{enumerate} 
+
+\end{enumerate}
+\end{document} 

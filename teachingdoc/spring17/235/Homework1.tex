@@ -1,0 +1,91 @@
+\documentclass[12pt]{article}
+\title{}
+\date{}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,mathrsfs}
+\usepackage{times}
+%\usepackage{hyperref}
+%\usepackage{CJKutf8}
+\textwidth=16cm
+\textheight=23cm
+\voffset=-1.8cm
+\hoffset=-1.1cm
+%------------------------------------------------------------------------------%
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{Ex}{Example}
+\newtheorem*{ex}{Exercise}
+
+\newcommand{\ba}{\beta}
+\newcommand{\da}{\delta}
+\newcommand{\Da}{\Delta}
+\newcommand{\ta}{\theta}
+\newcommand{\Ta}{\Theta}
+\newcommand{\la}{\lambda}
+\newcommand{\Oa}{\Omega}
+\newcommand{\vphi}{\varphi}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\lra}{\longrightarrow}
+
+\newcommand{\pl}{\partial}
+\newcommand{\fc}{\frac}
+\newcommand{\na}{\nabla}
+\newcommand{\ol}{\overline}
+\newcommand{\lt}{\left}
+\newcommand{\rt}{\right}
+\newcommand{\rw}{\rightarrow}
+
+\newcommand{\mf}{\mathbf}
+\newcommand{\mb}{\mathbb}
+\newcommand{\ml}{\mathcal}
+
+\newcommand{\bs}{\boldsymbol}
+\newcommand{\wt}{\widetilde}
+
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+{\Large \bf Exercises for Week 1 and 2}
+\end{center}
+The work handed in should be entirely your own. You can consult any abstract algebra textbook (e.g.~Dummit and Foote, Artin) and/or the class notes but nothing else. To receive full credit, justify your answer in a clear and logical way. Due Feb. 2.
+
+\begin{enumerate}
+\item Let $G:=\{a+b\sqrt{2}|(a,b)\in \mathbb{Q}^2\backslash (0,0)\}$. Show that $G$ is a group under multiplication.
+
+\item Prove that if all elements of a group $G$ satisfy $x^2=1$, then $G$ is abelian.
+
+\item List all subgroups of $S_3$.
+
+\item Let $G$ be a group and $g_0$ be a fixed element of $G$. Show that the set $Z_G(g_0):=\{g\in G|gg_0g^{-1}=g_0\}$ is a subgroup of $G$. This is called the \emph{centralizer} of $g_0$ in $G$.
+
+\item If $(a)$, $(b)$ are two given subgroups of $\Z$, we will define
+\[
+(a)+(b):=\{n\in \Z|n=x+y,~x\in (a),~y\in (b) \}.
+\]
+Show that 
+\begin{itemize}
+\item[(i)] $(a)+(b)$ is a subgroup of $\Z$.
+\item[(ii)] Explicitly list the first 10 positive elements of the group $(4)+(6)$.
+\item[(iii)] By a Theorem we proved in class, $(a)+(b)=(d)$ for some non-negative integer $d$. Show that $d=gcd(a,b)$. (Hint: Use the fact that, if $d=gcd(a,b)$, then, by the Euclidean algorithm, one can find integers $r,s\in \Z$ such that $d=ra+sb$.)
+\end{itemize}
+
+\item In class, we have define the group $\Z/(n)$ with the group addition given by
+\[
+\overline{a}+\overline{b}:=\overline{a+b}.
+\] 
+Show that this addition is well-defined (i.e.~it is independent of choices representative for the cosets). How many elements are there in the group? Justify your answer. 
+
+\item Let $f:(\mathbb{R},+)\to (\mathbb{C}^*,\times)$ be the map $f(a)=e^{2\pi i a}$. Prove that it's a group homomorphism and determine its kernel and image.
+
+\item Consider the group homomorphism $\mathrm{det}_n: GL_n(\R)\lra (\R\backslash \{0\},\times)$. Find its kernel and image.
+\end{enumerate}
+\end{document} 

@@ -1,0 +1,77 @@
+\documentclass[11pt]{article}
+\usepackage[all,2cell]{xy} \UseAllTwocells \SilentMatrices
+\usepackage{latexsym,amsfonts,amssymb}
+\usepackage{amsmath,amsthm,amscd}
+\usepackage{hyperref,psfrag}
+%\usepackage{diagcat}
+\usepackage{color}
+\usepackage{etoolbox}
+
+\usepackage[dvips]{epsfig}
+
+\usepackage{psfrag}
+\def\drawing#1{\begin{center}\epsfig{file=#1}\end{center}}
+% including eps files
+
+\usepackage{graphicx}
+
+\usepackage{a4wide}
+\renewcommand*\rmdefault{ppl}\normalfont\upshape
+
+%\usepackage{fancyhdr}
+%\pagestyle{fancyplain}
+%\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+%\renewcommand{\subsectionmark}[1]{\markright{#1}}
+%\lhead[\fancyplain{}{\bfseries\thepage}]{\fancyplain{}{\sl\bfseries\rightmark}}
+%\rhead[\fancyplain{}{\sl\bfseries\leftmark}]{\fancyplain{}{\bfseries\thepage}}
+%\cfoot{}
+
+\hfuzz=6pc
+
+
+%------------------------------------------------------------------------------%
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lemma}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{conj}[thm]{Conjecture}
+
+\theoremstyle{definition}
+
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{eg}[thm]{Example}
+\newtheorem{rmk}[thm]{Remark}
+\newtheorem{ntn}[thm]{Notation}
+\newtheorem{ex}[thm]{Exercise}
+
+\usepackage{bbm}
+\def\1{\mathbbm 1}
+\def\R{\mathbb R}
+\def\Q{\mathbb Q}
+\def\Z{\mathbb Z}
+\def\N{\mathbb N}
+\def\C{\mathbb C}
+\def\F{\mathbb F}
+\def\P{\mathbb P}
+\def\o{\otimes}
+\def\lra{\longrightarrow}
+\def\zb{\overline{z}}
+\def\Arg{\mathrm{Arg}}
+\def\Log{\mathrm{Log}}
+
+\begin{document}
+\begin{center}
+{\Large \bf Exercises for Week 2}
+\end{center}
+The work handed in should be entirely your own. You can consult the textbook and/or the class notes but nothing else. To receive full credit, justify your answer in a clear and logical way. Due Feb.~2.
+
+\paragraph{Reading.} Read Sections 1.3-1.6 of the textbook carefully.
+
+\begin{enumerate}
+\item Section 1.3 Exercise 19, 20, 22
+\item Section 1.4 Exercise 1, 2 (b), (d), 6, 11
+\item Section 1.5 Exercise 1, 2 (a), (e), 10
+\item Section 1.6 Exercise 1, 2 (b), (d), 4, 6
+\end{enumerate}
+\end{document} 

@@ -1,0 +1,140 @@
+\documentclass[11pt]{article}
+\usepackage[all,2cell]{xy} \UseAllTwocells \SilentMatrices
+\usepackage{latexsym,amsfonts,amssymb}
+\usepackage{amsmath,amsthm,amscd}
+\usepackage{hyperref,psfrag}
+%\usepackage{diagcat}
+\usepackage{color}
+\usepackage{etoolbox}
+
+\usepackage[dvips]{epsfig}
+
+\usepackage{psfrag}
+\def\drawing#1{\begin{center}\epsfig{file=#1}\end{center}}
+% including eps files
+
+\usepackage{graphicx}
+
+\usepackage{a4wide}
+\renewcommand*\rmdefault{ppl}\normalfont\upshape
+
+%\usepackage{fancyhdr}
+%\pagestyle{fancyplain}
+%\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+%\renewcommand{\subsectionmark}[1]{\markright{#1}}
+%\lhead[\fancyplain{}{\bfseries\thepage}]{\fancyplain{}{\sl\bfseries\rightmark}}
+%\rhead[\fancyplain{}{\sl\bfseries\leftmark}]{\fancyplain{}{\bfseries\thepage}}
+%\cfoot{}
+
+\hfuzz=6pc
+
+
+%------------------------------------------------------------------------------%
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lemma}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{conj}[thm]{Conjecture}
+
+\theoremstyle{definition}
+
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{eg}[thm]{Example}
+\newtheorem{rmk}[thm]{Remark}
+\newtheorem{ntn}[thm]{Notation}
+\newtheorem{ex}[thm]{Exercise}
+
+\usepackage{bbm}
+\def\1{\mathbbm 1}
+\def\R{\mathbb R}
+\def\Q{\mathbb Q}
+\def\Z{\mathbb Z}
+\def\N{\mathbb N}
+\def\C{\mathbb C}
+\def\F{\mathbb F}
+\def\P{\mathbb P}
+\def\o{\otimes}
+\def\lra{\longrightarrow}
+\def\zb{\overline{z}}
+\def\Arg{\mathrm{Arg}}
+\def\Log{\mathrm{Log}}
+
+\begin{document}
+\begin{center}
+{\Large \bf Exercises for Week 6}
+\end{center}
+The work handed in should be entirely your own. You can consult the textbook and/or the class notes but nothing else. To receive full credit, justify your answer in a clear and logical way. Due Oct.~13.
+
+\paragraph{Reading.} Read Sections 2.4-2.5 of the textbook carefully.
+
+\begin{enumerate}
+%\item Section 2.1 Exercise 1, 2, 5, 6, 9 (a) (c), 15, 17, 22
+%\item Section 2.2 Exercise 1, 2 (b), (d), 4, 5 (a) (c), 10, 15 (a) (b)
+\item Section 2.5 Exercise 1, 2 (a), (c), 5, 7, 8, 10, 11.
+%\item Section 3.1 Exercise 1, 2, 5
+%\item Section 3.2 Exercise 1, 2 (a), (d), (e)
+\item This exercise is intended to develop our own notation to help you understand/memorize what we did in class today.
+
+Let $T:V\lra W$ be a linear map, and let $\beta=\{v_1,\dots, v_n\}$, $\beta^\prime=\{v_1^\prime,\dots, v_n^\prime\}$ be ordered bases for $V$ and $\gamma=\{w_1,\dots, w_m\}$, $\gamma^\prime=\{w_1^\prime,\dots, w_m^\prime\}$ be ordered bases for $W$.
+
+We know how to parametrize vectors in $V$ (and similarly for $W$) by
+\[
+v\in V \Longleftrightarrow v=\sum_{i=1}^n a_iv_i = \beta \cdot [v]^{\beta}= (v_1,\dots, v_n) \cdot
+\left( 
+\begin{matrix}
+a_1\\
+\vdots\\
+a_n
+\end{matrix}
+\right).
+\]
+Likewise, in terms of $\beta^\prime$, we have
+\[
+ v=\sum_{i=1}^n a_iv_i = \beta^\prime \cdot [v]^{\beta^\prime}= (v_1^\prime,\dots, v_n^\prime) \cdot
+\left( 
+\begin{matrix}
+a_1^\prime\\
+\vdots\\
+a_n^\prime
+\end{matrix}
+\right).
+\]
+
+(a) Show that the change of basis matrix $Q:= [\mathrm{Id_V}]_\beta^{\beta^\prime}=(q_{i,j})$ has the effect
+\[
+\beta = \beta^\prime\cdot Q \Longleftrightarrow
+(v_1,\dots, v_n)= (v_1^\prime,\dots, v_n^\prime) \cdot
+\left( 
+\begin{matrix}
+q_{1,1} & q_{1,2} &\dots & q_{1,n}\\
+q_{2,1} & q_{2,2} &\dots & q_{2,n}\\
+\vdots & \vdots &\ddots & \vdots\\
+q_{n,1} & q_{n,2} &\dots & q_{n,n}
+\end{matrix}
+\right).
+\]
+Thus $\beta^\prime \cdot [v]^{\beta^\prime} = v = \beta \cdot [v]^\beta$ implies that
+\[
+\beta^\prime \cdot [v]^{\beta^\prime} = v = \beta \cdot Q [v]^\beta \Rightarrow   [v]^{\beta^\prime}=  Q [v]^\beta.
+\]
+
+(b) Define $T(\beta):= (T(v_1),T(v_2),\dots, T(v_n))$, a row of vectors. Show that
+\[
+T(\beta)= (w_1,\dots, w_m)\cdot A.
+\]
+where $A= [T]_\beta^\gamma $ is the matrix of $T$ with respect to $\beta$ and $\gamma$.
+
+(c) Now, if $\beta = \beta^\prime \cdot Q_1$ and $\gamma = \gamma^\prime \cdot Q_2$ where 
+$Q_1=[\mathrm{Id}_V]_\beta^{\beta^\prime}$ and $Q_2=[\mathrm{Id}_W]_\gamma^{\gamma^\prime}$ are the respective change of coordinate matrices, we then have
+\[
+T(\beta) = T(\beta^\prime \cdot Q_1)= T(\beta^\prime) \cdot Q_1
+\]
+since $T$ is linear. Combine this with part (b) and show that
+\[
+A^\prime = Q_2^{-1} A Q_1,
+\]
+where $A^\prime = [T]_{\beta^\prime}^{\gamma^\prime}$.
+
+\end{enumerate}
+\end{document} 

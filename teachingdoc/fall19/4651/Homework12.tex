@@ -1,0 +1,141 @@
+\documentclass[11pt]{article}
+\usepackage[all,2cell]{xy} \UseAllTwocells \SilentMatrices
+\usepackage{latexsym,amsfonts,amssymb}
+\usepackage{amsmath,amsthm,amscd}
+\usepackage{hyperref,psfrag}
+%\usepackage{diagcat}
+\usepackage{color}
+\usepackage{etoolbox}
+
+\usepackage[dvips]{epsfig}
+
+\usepackage{psfrag}
+\def\drawing#1{\begin{center}\epsfig{file=#1}\end{center}}
+% including eps files
+
+\usepackage{graphicx}
+
+\usepackage{a4wide}
+\renewcommand*\rmdefault{ppl}\normalfont\upshape
+
+%\usepackage{fancyhdr}
+%\pagestyle{fancyplain}
+%\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+%\renewcommand{\subsectionmark}[1]{\markright{#1}}
+%\lhead[\fancyplain{}{\bfseries\thepage}]{\fancyplain{}{\sl\bfseries\rightmark}}
+%\rhead[\fancyplain{}{\sl\bfseries\leftmark}]{\fancyplain{}{\bfseries\thepage}}
+%\cfoot{}
+
+\hfuzz=6pc
+
+
+%------------------------------------------------------------------------------%
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lemma}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{conj}[thm]{Conjecture}
+
+\theoremstyle{definition}
+
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{eg}[thm]{Example}
+\newtheorem{rmk}[thm]{Remark}
+\newtheorem{ntn}[thm]{Notation}
+\newtheorem{ex}[thm]{Exercise}
+
+\usepackage{bbm}
+\def\1{\mathbbm 1}
+\def\R{\mathbb R}
+\def\Q{\mathbb Q}
+\def\Z{\mathbb Z}
+\def\N{\mathbb N}
+\def\C{\mathbb C}
+\def\F{\mathbb F}
+\def\P{\mathbb P}
+\def\o{\otimes}
+\def\lra{\longrightarrow}
+\def\zb{\overline{z}}
+\def\Arg{\mathrm{Arg}}
+\def\Log{\mathrm{Log}}
+
+\begin{document}
+\begin{center}
+{\Large \bf Exercises for Week 12}
+\end{center}
+The work handed in should be entirely your own. You can consult the textbook and/or the class notes but nothing else. To receive full credit, justify your answer in a clear and logical way. Due Dec. 4.
+
+\paragraph{Reading.} Read Sections 7.3 and the notes I sent you carefully.
+
+\begin{enumerate}
+\item Section 7.3 Exercise 1, 3(c), (d), 4 (for 3 (c),(d)), 13.
+\item Let $J=A+B$ be the sum of two square matrices satisfying $AB=BA$. Suppose $X$ is also a square matrix and $Q$ is an invertible matrix such that $QXQ^{-1}=J$.
+\begin{enumerate}
+\item[(1)] Let $f(t)\in \F[t]$ be a polynomial. Show that $Qf(X)Q^{-1}=f(J)$. More generally, one can take $f(t)$ to be a power series as long as $f(J)$ makes sense.
+\item[(2)] Show that $J^k= \sum_{i=0}^k {k \choose i} A^iB^{k-i}$.
+\item[(3)] Now let $J$ be the $n\times n$ Jordan matrix and write
+\[
+J=
+\left(
+\begin{matrix}
+\lambda & 1 & 0 &\cdots & 0 \\
+ 0  & \lambda & 1 & \cdots & 0\\
+ 0  &  0  &  \lambda & \cdots & 0\\
+ \vdots & \vdots & \vdots & \cdots & 1\\
+ 0 & 0 & 0 &  0 &\lambda
+\end{matrix}
+\right)=
+\left(
+\begin{matrix}
+\lambda & 0 & 0 &\cdots & 0 \\
+ 0  & \lambda & 0 & \cdots & 0\\
+ 0  &  0  &  \lambda & \cdots & 0\\
+ \vdots & \vdots & \vdots & \cdots & 0\\
+ 0 & 0 & 0 &  0 &\lambda
+\end{matrix}
+\right)+
+\left(
+\begin{matrix}
+0 & 1 & 0 &\cdots & 0 \\
+ 0  & 0 & 1 & \cdots & 0\\
+ 0  &  0  &  0 & \cdots & 0\\
+ \vdots & \vdots & \vdots & \cdots & 1\\
+ 0 & 0 & 0 &  0 & 0
+\end{matrix}
+\right).
+\]
+Show that the two matrices in the sum commute, and compute the power series
+\[
+e^J=\sum_{k=0}^\infty \frac{J^n}{n!}
+\]
+\item[(4)] Now, describe a method to solve for matrix valued complex linear differential equation
+\[
+\left(
+\begin{matrix}
+y_1^\prime(t)\\
+\vdots\\
+y_n^\prime(t)
+\end{matrix}
+\right)
+=X
+\left(
+\begin{matrix}
+y_1(t)\\
+\vdots\\
+y_n(t)
+\end{matrix}
+\right)
+\]
+where $X$ is a complex $n\times n$ matrix.
+\end{enumerate}
+\item A real matrix $A\in \mathrm{M}_n(\R)$ is called \emph{nilpotent} if there is an $r\in \N$ such that $A^r=0$.
+\begin{enumerate}
+\item[(1)] Regard $A$ as a complex matrix. Show that $A$ is nilpotent if and only if all its eigenvalues are zero.
+\item[(2)] When $A$ is nilpotent, show that there is a real invertible matrix $Q$ such that $QAQ^{-1}=J$ is the Jordan canonical form of $A$. (Hint: Regard $A$ as a complex matrix, and find an end vector for each cycle $v_k=x_k+iy_k$. If $A^{r}v_{k}\neq 0$ but $A^{r+1}v_k=0$, then either $A^rx_k\neq 0$ or $A^ry_k\neq 0$. Do this for all cycles in the generalized eigenspace.)
+\item[(3)] Classify all possible real $3\times 3$ and $4\times 4$ nilpotent matrices by listing their possible conjugacy classes.
+\end{enumerate}
+
+The statement in the exercise can be replaced by any nilpotent matrix over any field. In fact, for nilpotent matrices you may avoid using JCF completely. Just try to mimic the proof we used in finding cycles consisting of basis elements for $L_A:\F^n\lra \F^n$.
+\end{enumerate}
+\end{document} 

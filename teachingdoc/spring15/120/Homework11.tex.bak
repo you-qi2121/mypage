@@ -1,0 +1,87 @@
+\documentclass[11pt]{article}
+\usepackage[all,2cell]{xy} \UseAllTwocells \SilentMatrices
+\usepackage{latexsym,amsfonts,amssymb}
+\usepackage{amsmath,amsthm,amscd}
+\usepackage{hyperref,psfrag}
+%\usepackage{diagcat}
+\usepackage{color}
+\usepackage{etoolbox}
+
+\usepackage[dvips]{epsfig}
+
+\usepackage{psfrag}
+\def\drawing#1{\begin{center}\epsfig{file=#1}\end{center}}
+% including eps files
+
+\usepackage{graphicx}
+
+\usepackage{a4wide}
+\renewcommand*\rmdefault{ppl}\normalfont\upshape
+
+%\usepackage{fancyhdr}
+%\pagestyle{fancyplain}
+%\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+%\renewcommand{\subsectionmark}[1]{\markright{#1}}
+%\lhead[\fancyplain{}{\bfseries\thepage}]{\fancyplain{}{\sl\bfseries\rightmark}}
+%\rhead[\fancyplain{}{\sl\bfseries\leftmark}]{\fancyplain{}{\bfseries\thepage}}
+%\cfoot{}
+
+\hfuzz=6pc
+
+
+%------------------------------------------------------------------------------%
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lemma}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{conj}[thm]{Conjecture}
+
+\theoremstyle{definition}
+
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{eg}[thm]{Example}
+\newtheorem{rmk}[thm]{Remark}
+\newtheorem{ntn}[thm]{Notation}
+\newtheorem{ex}[thm]{Exercise}
+
+\usepackage{bbm}
+\def\1{\mathbbm 1}
+\def\R{\mathbb R}
+\def\Q{\mathbb Q}
+\def\Z{\mathbb Z}
+\def\N{\mathbb N}
+\def\C{\mathbb C}
+\def\F{\mathbb F}
+\def\P{\mathbb P}
+\def\o{\otimes}
+\def\lra{\longrightarrow}
+\def\zb{\overline{z}}
+\def\Arg{\mathrm{Arg}}
+\def\Log{\mathrm{Log}}
+
+\begin{document}
+\begin{center}
+{\Large \bf Problem Set for Week 11}
+\end{center}
+The work handed in should be entirely your own. You can consult Stewart and/or the class notes but nothing else. To receive full credit, justify your answer in a clear and logical way. Due Apr. 15.
+
+\paragraph{Reading.} This is the most important part of the homework: Read Sections 16.8, 15.7--15.8 of the textbook carefully. 
+
+\begin{enumerate}
+%\item Section 16.5 Exercises 2, 8, 14, 20, 26.
+\item Section 16.8 Exercises 10, 14,
+\item Section 15.7 Exercises 4, 10, 12, 22, 28.
+\item Section 15.8 Exercises 8, 10, 14.
+\item Evaluate the integral
+$\iint_S \F \cdot d\S$
+Here $\F$ is the field
+\[
+\F = z \sin(y^2)\i + z \cos(x^2)\j + x^2\k
+\]
+The surface $S$ is the top half of an ellipsoid, oriented upward, given by the equations
+\[
+x^2 + y^2 + 4z^2 = 1, z \geq 0.
+\]
+\end{enumerate}
+\end{document} 

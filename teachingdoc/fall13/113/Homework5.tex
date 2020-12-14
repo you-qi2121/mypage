@@ -1,0 +1,96 @@
+\documentclass[12pt]{article}
+\title{}
+\date{}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,mathrsfs}
+\usepackage{times}
+\usepackage{diagcat}
+%\usepackage{hyperref}
+%\usepackage{CJKutf8}
+\textwidth=16cm
+\textheight=23cm
+\voffset=-1.8cm
+\hoffset=-1.1cm
+%------------------------------------------------------------------------------%
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{Ex}{Example}
+\newtheorem*{ex}{Exercise}
+
+\newcommand{\ba}{\beta}
+\newcommand{\da}{\delta}
+\newcommand{\Da}{\Delta}
+\newcommand{\ta}{\theta}
+\newcommand{\Ta}{\Theta}
+\newcommand{\la}{\lambda}
+\newcommand{\Oa}{\Omega}
+\newcommand{\vphi}{\varphi}
+
+\newcommand{\pl}{\partial}
+\newcommand{\fc}{\frac}
+\newcommand{\na}{\nabla}
+\newcommand{\ol}{\overline}
+\newcommand{\lt}{\left}
+\newcommand{\rt}{\right}
+\newcommand{\rw}{\rightarrow}
+
+\newcommand{\mf}{\mathbf}
+\newcommand{\mb}{\mathbb}
+\newcommand{\ml}{\mathcal}
+
+\newcommand{\bs}{\boldsymbol}
+\newcommand{\wt}{\widetilde}
+
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+{\Large \bf Exercises for Week 5}
+\end{center}
+The work handed in should be entirely your own. You can consult Dummit and Foote, Artin and/or the class notes but nothing else. To receive full credit, justify your answer in a clear and logical way. Due Oct. 9.
+
+\paragraph{Reading.} With Dummit and Foote, please read Sections 1.6, 3.1, 3.2.  Alternatively, read Artin Sections 2.5, 2.6.
+
+\begin{enumerate}
+\item Let $f:(\mathbb{R},+)\to (\mathbb{C}^*,\times)$ be the map $f(a)=e^{2\pi i a}$. Prove that it's a group homomorphism and determine its kernel and image.
+\item Let $G$ be a group and $x\in G$ be an element of finite order $n$. Show that
+$$\phi_x: \mathbb{Z}/(n)\longrightarrow \langle x \rangle, \quad \overline{a}\mapsto x^a$$
+is a well-defined group homomorphism, i.e., it's independent of representatives you choose for $\overline{a}$. Then prove that $\phi_x$ is an isomorphism.
+%\item In class we have shown that there is a bijection of sets
+%$$G\cong \mathrm{Hom}_{\mathrm{Group}}(\mathbb{Z},G), \quad x \mapsto \left(\phi_x:a\mapsto x^a\right).$$
+% Now we will consider $\mathrm{Hom}_{\mathrm{Group}}(\mathbb{Z}/(n),G)$.\\
+%    (a). Prove that given any element $x\in G$, such that $x^n=1$, then the
+\item For $S_3$, and $
+g=(12)=
+\begin{DGCpicture}[scale=0.5]
+\DGCstrand(0,0)(1,1)
+\DGCstrand(1,0)(0,1)
+\DGCstrand(2,0)(2,1)
+\end{DGCpicture}$,
+write out explicitly what the conjugation-isomorphism-by-$g$ does to all elements of $S_3$.
+\item Prove that there is an isomorphism of groups
+$$U(1):=\left\{z\in \mathbb{C}^*\big||z|=1\right\}\cong SO(2, \mathbb{R}):=
+\left\{
+\left(
+\begin{array}{cc}
+\cos \theta & -\sin \theta\\
+\sin \theta & \cos \theta
+\end{array}
+\right)
+\big|
+\theta \in \mathbb{R}
+\right\},
+$$
+by explicitly constructing the isomorphisms.
+\item Let $\phi \colon \mathbb{Z}/(12) \mapsto \mathbb{Z}/(3), \overline{a}\mapsto \overline{a}$. Prove that this is a well-defined group homomorphism, and find its kernel.
+\item (a) Prove that if $K $ is a normal subgroup of $G$, and $H$ is an arbitrary subgroup of $G$, then $K\cap H \lhd H$.\\
+(b) If $\phi: G\to G^\prime$ is a group homomorphism, and $H$ is a subgroup of $G$. Use the previous part to determine that under what condition the restriction $\phi|_H: H\to G^\prime$ is an injective homomorphism.
+\item For $S_3$ and its normal subgroup $A_3$, write out the $2\times 2$ multiplication table for the cosets (quotient group) $S_3/A_3$. Identify it with a more familiar group.
+\item Prove that in any group $G$, and given elements $a,b\in G$, there is a conjugation automorphism of $G$ taking $ab$ into $ba$.
+\end{enumerate}
+\end{document} 

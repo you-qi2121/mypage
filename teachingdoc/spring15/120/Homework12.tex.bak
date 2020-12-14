@@ -1,0 +1,100 @@
+\documentclass[11pt]{article}
+\usepackage[all,2cell]{xy} \UseAllTwocells \SilentMatrices
+\usepackage{latexsym,amsfonts,amssymb}
+\usepackage{amsmath,amsthm,amscd}
+\usepackage{hyperref,psfrag}
+%\usepackage{diagcat}
+\usepackage{color}
+\usepackage{etoolbox}
+
+\usepackage[dvips]{epsfig}
+
+\usepackage{psfrag}
+\def\drawing#1{\begin{center}\epsfig{file=#1}\end{center}}
+% including eps files
+
+\usepackage{graphicx}
+
+\usepackage{a4wide}
+\renewcommand*\rmdefault{ppl}\normalfont\upshape
+
+%\usepackage{fancyhdr}
+%\pagestyle{fancyplain}
+%\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+%\renewcommand{\subsectionmark}[1]{\markright{#1}}
+%\lhead[\fancyplain{}{\bfseries\thepage}]{\fancyplain{}{\sl\bfseries\rightmark}}
+%\rhead[\fancyplain{}{\sl\bfseries\leftmark}]{\fancyplain{}{\bfseries\thepage}}
+%\cfoot{}
+
+\hfuzz=6pc
+
+
+%------------------------------------------------------------------------------%
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lemma}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{conj}[thm]{Conjecture}
+
+\theoremstyle{definition}
+
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{eg}[thm]{Example}
+\newtheorem{rmk}[thm]{Remark}
+\newtheorem{ntn}[thm]{Notation}
+\newtheorem{ex}[thm]{Exercise}
+
+\usepackage{bbm}
+\def\R{\mathbb R}
+\def\Q{\mathbb Q}
+\def\Z{\mathbb Z}
+\def\N{\mathbb N}
+\def\C{\mathbb C}
+%\def\F{\mathbb F}
+\def\P{\mathbb P}
+\def\a{\mathbf a}
+\def\b{\mathbf b}
+\def\c{\mathbf c}
+\def\r{\mathbf r}
+\def\s{\mathbf s}
+\def\t{\mathbf t}
+\def\u{\mathbf u}
+\def\v{\mathbf v}
+\def\w{\mathbf w}
+\def\i{\mathbf i}
+\def\j{\mathbf j}
+\def\k{\mathbf k}
+\def\n{\mathbf n}
+\def\x{\mathbf x}
+\def\y{\mathbf y}
+\def\z{\mathbf z}
+\def\B{\mathbf B}
+\def\E{\mathbf E}
+\def\F{\mathbf F}
+\def\S{\mathbf S}
+\def\G{\mathbf G}
+\def\o{\otimes}
+\def\lra{\longrightarrow}
+\def\zb{\overline{z}}
+
+\begin{document}
+\begin{center}
+{\Large \bf Problem Set for Week 11}
+\end{center}
+The work handed in should be entirely your own. You can consult Stewart and/or the class notes but nothing else. To receive full credit, justify your answer in a clear and logical way. Due Apr. 15.
+
+\paragraph{Reading.} This is the most important part of the homework: Read Sections 16.8, 15.7--15.8 of the textbook carefully.
+
+\begin{enumerate}
+\item Section 15.8 Exercises 8, 10, 16, 18, 24, 30
+\item Section 15.9 Exercises 8, 10, 14, 22, 26, 40
+\item The solid $B$ is the cap of a sphere, given by the equations
+$x^2 + y^2 + z^2 \leq 4$, $z \geq 1$. Evaluate the integral $\iiint_BzdV$
+
+a) in cylindrical coordinates,
+
+b) in spherical coordinates.
+\item Section 16.9 Exercises 4, 8, 12, 18, 26,
+\end{enumerate}
+\end{document} 

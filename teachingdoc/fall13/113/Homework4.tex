@@ -1,0 +1,104 @@
+\documentclass[12pt]{article}
+\title{}
+\date{}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,mathrsfs}
+\usepackage{times}
+\usepackage{diagcat}
+%\usepackage{hyperref}
+%\usepackage{CJKutf8}
+\textwidth=16cm
+\textheight=23cm
+\voffset=-1.8cm
+\hoffset=-1.1cm
+%------------------------------------------------------------------------------%
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{Ex}{Example}
+\newtheorem*{ex}{Exercise}
+
+\newcommand{\ba}{\beta}
+\newcommand{\da}{\delta}
+\newcommand{\Da}{\Delta}
+\newcommand{\ta}{\theta}
+\newcommand{\Ta}{\Theta}
+\newcommand{\la}{\lambda}
+\newcommand{\Oa}{\Omega}
+\newcommand{\vphi}{\varphi}
+
+\newcommand{\pl}{\partial}
+\newcommand{\fc}{\frac}
+\newcommand{\na}{\nabla}
+\newcommand{\ol}{\overline}
+\newcommand{\lt}{\left}
+\newcommand{\rt}{\right}
+\newcommand{\rw}{\rightarrow}
+
+\newcommand{\mf}{\mathbf}
+\newcommand{\mb}{\mathbb}
+\newcommand{\ml}{\mathcal}
+
+\newcommand{\bs}{\boldsymbol}
+\newcommand{\wt}{\widetilde}
+
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+{\Large \bf Exercises for Week 4}
+\end{center}
+The work handed in should be entirely your own. You can consult Dummit and Foote, Artin and/or the class notes but nothing else. To receive full credit, justify your answer in a clear and logical way. Due Oct. 2.
+
+\paragraph{Reading.} With Dummit and Foote, please read Section 1.6, 3.1, 3.2. Alternatively, read Artin 2.8, 2.5.
+
+\begin{enumerate}
+\item If $G$ is a finite group, use Lagrange's theorem $|G|=[G:K]|K|$ to show the more general version: if $K\subset H \subset G$ are inclusions of subgroups, then $[G:K]=[G:H][H:K]$.
+\item Prove that if $H$, $K$ are finite subgroups of a group $G$ whose orders are coprime, then $K\cap H=\{1_G\}$.
+\item Find the minimal coset representative in $S_5/S_4$ of the element
+\[
+\begin{DGCpicture}[scale=0.6]
+\DGCstrand(0,0)(4,2)
+\DGCstrand(1,0)(4,1.35)(3,2)
+\DGCstrand(2,0)(0,2)
+\DGCstrand(3,0)(1,2)
+\DGCstrand(4,0)(2,2)
+\end{DGCpicture} \ .
+\]
+Here by ``minimal'' we mean it should have the minimal number of crossings in its left coset, as we did in class. (Hint: You might find it useful that, locally, you can wiggle pictures using the relation $
+\begin{DGCpicture}[scale=0.5]
+\DGCstrand(0,0)(2,2)
+\DGCstrand(2,0)(0,2)
+\DGCstrand(1,0)(0,1)(1,2)
+\end{DGCpicture}
+\ = \
+\begin{DGCpicture}[scale=0.5]
+\DGCstrand(0,0)(2,2)
+\DGCstrand(2,0)(0,2)
+\DGCstrand(1,0)(2,1)(1,2)
+\end{DGCpicture}
+$ )
+
+\item Recall we have shown in class that $\mathbb{Z}/(p)^*:=\mathbb{Z}/(p)\backslash\{0\}$ is an abelian group of order $p-1$ under multiplication of modular numbers. Use this fact to show Fermat's little theorem: for any integer $a\in \mathbb{Z}$, $a^p\equiv a~(\mathrm{mod}~p)$. (Hint: check that if $(a,p)=1$, $a^{p-1}\equiv 1~(\mathrm{mod}~p)$. To do this remember what we have said about orders of elements in a finite group).
+
+\item In class we discussed that picking any element $x\in G$ uniquely determines a group homomorphism $\mathbb{Z}\longrightarrow G$. Consider in $SO(2,\mathbb{R})$, and pick
+    $$x=
+    \left(
+    \begin{array}{cc}
+    \cos \theta &-\sin \theta\\
+    \sin \theta & \cos \theta
+    \end{array}
+    \right)
+    $$
+   Here $\theta$ is a fixed angle. Write down explicitly the group homomorphism determined by this element. When is this homomorphism injective?
+\item Let $K$ be a subgroup of a given group $G$.\\
+(a) Show that for a fixed $g\in G$, $gKg^{-1}:=\{gkg^{-1}|k\in K\}$ is a subgroup of $G$.\\
+(b) Show that $|K|=|gKg^{-1}|$.\\
+(c) Show that if $G$ has only one subgroup $K$ of order $n$, then $K$ is normal.
+\item Determine under what condition the inverse map $(-)^{-1}:G\longrightarrow G, g\mapsto g^{-1}$ is a group homomorphism.
+\end{enumerate}
+\end{document} 

@@ -1,0 +1,90 @@
+\documentclass[12pt]{article}
+\title{}
+\date{}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,mathrsfs}
+\usepackage{times}
+%\usepackage{hyperref}
+%\usepackage{CJKutf8}
+\textwidth=16cm
+\textheight=23cm
+\voffset=-1.8cm
+\hoffset=-1.1cm
+%------------------------------------------------------------------------------%
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{Ex}{Example}
+\newtheorem*{ex}{Exercise}
+
+\newcommand{\ba}{\beta}
+\newcommand{\da}{\delta}
+\newcommand{\Da}{\Delta}
+\newcommand{\ta}{\theta}
+\newcommand{\Ta}{\Theta}
+\newcommand{\la}{\lambda}
+\newcommand{\Oa}{\Omega}
+\newcommand{\vphi}{\varphi}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\lra}{\longrightarrow}
+
+\newcommand{\pl}{\partial}
+\newcommand{\fc}{\frac}
+\newcommand{\na}{\nabla}
+\newcommand{\ol}{\overline}
+\newcommand{\lt}{\left}
+\newcommand{\rt}{\right}
+\newcommand{\rw}{\rightarrow}
+
+\newcommand{\mf}{\mathbf}
+\newcommand{\mb}{\mathbb}
+\newcommand{\ml}{\mathcal}
+
+\newcommand{\bs}{\boldsymbol}
+\newcommand{\wt}{\widetilde}
+
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+{\Large \bf Homework 4}
+\end{center}
+The work handed in should be entirely your own. You can consult any abstract algebra textbook (e.g.~Dummit and Foote, Artin), the course textbook and/or the class notes but nothing else. To receive full credit, justify your answer in a clear and logical way. Due Mar.~30.
+
+\begin{enumerate}
+\item The most important exercise is that you should find some time during the break to review what we have learnt so far. Also, read Chapter 4 on fundamental regions.
+
+\item Prove the following Proposition we stated in class.
+\begin{prop}
+Let $G$ be a group acting on a set $S$, and let $s,t\in S$ be two elements lying in the same orbit, i.e., there is a $g\in G$ such that $g*s=t$. Then there is an isomorphism of stablizer subgroups
+\[
+\Phi_g: Z_G(s)\lra Z_G(t),\quad x\mapsto gxg^{-1}.
+\]
+\end{prop}
+In particular, if the stablizer groups are finite, then $|Z_G(s)|=|Z_G(t)|$.
+
+\item Use the stablizer-orbit counting formula $|G|=|Z_G(s)||O_{s}|$ for a finite transitive group action to give an alternative count of the number of elements in the dihedral group $D_2^n$. (Hint: Consider the action of the dihedral group on the set of sides or vertices of a regular $n$gon and use the formula)
+.
+\item Use the following inductive procedure to prove that $|S_n|=n!$.
+\begin{enumerate}
+\item[(1)] Show that the group $S_n$ acts transitively on the set $I_n=\{1,\dots, n\}$, and determine the stablizer subgroup of the element $n$.
+\item[(2)] Use part (1) and induction ($S_1$ obviously has only one element) to prove the desired formula.
+\end{enumerate}
+
+\item Show that the product of two reflections of $\R^2$ is a rotation through
+twice the angle between their reflecting lines. More precisely,
+say that $S_i$ has reflecting line at angle $\theta_i$ with the positive $x$-axis,
+with $0 \leq \theta_i< \pi$, and say that $\theta_1<\theta_2$, Then $S_2S_1$ is a counterclockwise
+rotation through angle $2(\theta_1-\theta_2)$, and $S_1S_2$ is a clockwise
+rotation through angle $2(\theta_2 - \theta_1)$.
+
+\end{enumerate}
+\end{document} 

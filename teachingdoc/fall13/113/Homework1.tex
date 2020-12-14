@@ -1,0 +1,101 @@
+\documentclass[12pt]{article}
+\title{}
+\date{}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,mathrsfs}
+\usepackage{times}
+%\usepackage{hyperref}
+%\usepackage{CJKutf8}
+\textwidth=16cm
+\textheight=23cm
+\voffset=-1.8cm
+\hoffset=-1.1cm
+%------------------------------------------------------------------------------%
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{Ex}{Example}
+\newtheorem*{ex}{Exercise}
+
+\newcommand{\ba}{\beta}
+\newcommand{\da}{\delta}
+\newcommand{\Da}{\Delta}
+\newcommand{\ta}{\theta}
+\newcommand{\Ta}{\Theta}
+\newcommand{\la}{\lambda}
+\newcommand{\Oa}{\Omega}
+\newcommand{\vphi}{\varphi}
+
+\newcommand{\dif}{\partial}
+\newcommand{\fc}{\frac}
+\newcommand{\na}{\nabla}
+\newcommand{\ol}{\overline}
+\newcommand{\lt}{\left}
+\newcommand{\rt}{\right}
+\newcommand{\rw}{\rightarrow}
+\newcommand{\lra}{\longrightarrow}
+
+\newcommand{\mf}{\mathbf}
+\newcommand{\mb}{\mathbb}
+\newcommand{\ml}{\mathcal}
+
+\newcommand{\bs}{\boldsymbol}
+\newcommand{\wt}{\widetilde}
+
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+{\Large \bf Exercises for Week 1}
+\end{center}
+The work handed in should be entirely your own. You can consult Dummit and Foote, Artin and/or the class notes but nothing else. To receive full credit, justify your answer in a clear and logical way. Due Sept. 11.
+
+\paragraph{Reading.} If you have Dummit and Foote, read Sections 1.1 and 2.1. With Artin, read Sections 2.1, 2.2.
+
+\begin{enumerate}
+\item Determine if the matrix multiplication structure on $\mathrm{M}(n,\mathbb{R})$ is associative/commutative. Is it a group under multiplication, why? (Caution: what's the difference when $n=1$ and $n\neq 1$?)
+
+\item Show that given any set $S$ and a fixed element $x_0\in S$, the map $(x,y)\mapsto x_0$, $\forall x, y \in S$ defines a commutative, associative law of composition.
+
+\item Let $G:=\{a+b\sqrt{2}|(a,b)\in \mathbb{Q}^2\backslash (0,0)\}$. Show that $G$ is a group under multiplication.
+
+\item Prove that if all elements of a group $G$ satisfy $x^2=1$, then $G$ is abelian.
+
+\item Show by definition that $SL(2,\mathbb{R})$ is a subgroup of $GL(2,\mathbb{R})$.
+
+\item List all subgroups of $S_3$.
+
+\item Let $G$ be a group and $g_0$ be a fixed element of $G$. Show that the set $Z_G(g_0):=\{g\in G|gg_0g^{-1}=g_0\}$ is a subgroup of $G$. This is called the \emph{centralizer} of $g_0$ in $G$.
+%\item Evaluate $\int_{\frac{2\pi}{3}}^{\pi} \cos x (1+ \sin^2 x) dx.$
+%\item Let $m,n$ be positive integers. Use Formula 2 on page 476 to show the following identities.
+%	\begin{enumerate}
+%	\item  \begin{align*} \int_{-\pi}^\pi \sin mx \cos nx \,\,dx =0 \end{align*}
+%	\item
+%	\begin{align*}
+%	\int_{-\pi}^\pi \cos mx \cos nx \,\,dx = \left\{ \begin{array}{lcc} 0 &if& m \neq n\\ \pi&if& m=n \end{array}\right.
+%	\end{align*}
+%	\end{enumerate}	
+%\item Let $n$ be a positive integer. Let $I_n = \int_0^{\pi/2} \sin^nx \,\,dx.$
+%	\begin{enumerate}
+%	\item Use integration by parts to show that
+%\begin{align*}
+%I_n = \frac{n-1}{n} I_{n-2} \end{align*} for $n \geq 2.$
+%	\item Show that \begin{align*}
+%	I_{2n+1}= \frac{2 \cdot 4 \cdot 6 \cdot \cdots \cdot 2n}{3 \cdot 5 \cdot 7 \cdot \cdots \cdot (2n+1)}
+%	\end{align*}
+%	\item Show that \begin{align*}
+%	I_{2n} = \frac{1 \cdot 3 \cdot 5 \cdot \cdots \cdot (2n-1)}{2 \cdot 4 \cdot 6 \cdot \cdots \cdot 2n} \frac{\pi}{2}
+%	\end{align*}
+%	\item Show that $I_{2n+2} \leq I_{2n+1} \leq I_{2n}.$ (Hint: $|\sin x| \leq 1.$)
+%	\item Show that $\frac{I_{2n+2}}{I_{2n}} = \frac{2n+1}{2n+2}$, $\frac{2n+1}{2n+2} \leq \frac{I_{2n+1}}{I_{2n}} \leq 1$, and $\lim_{n \rw \infty} \frac{I_{2n+1}}{I_{2n}} =1$
+%	\item Show the {\it Wallis formula}:
+%	\begin{align*}
+%	\lim_{n \rw \infty} \frac{2}{1} \cdot \frac{2}{3} \cdot \frac{4}{3} \cdot \frac{4}{5} \cdot \frac{6}{5} \cdot \frac{6}{7} \cdot \cdots \cdot \frac{2n}{2n-1} \cdot \frac{2n}{2n+1} = \frac{\pi}{2}.
+%\end{align*}		\end{enumerate}
+%For (b) and (c), you need {\it mathematical induction}. Search "Khan academy mathematical induction" for an explanation and read Example 5 in Appendix E(page A35) in Stewart's Calculus for how to write a proof.
+\end{enumerate}
+\end{document} 

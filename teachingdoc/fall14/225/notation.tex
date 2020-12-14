@@ -1,0 +1,84 @@
+\documentclass[11pt]{article}
+\usepackage[all,2cell]{xy} \UseAllTwocells \SilentMatrices
+\usepackage{latexsym,amsfonts,amssymb}
+\usepackage{amsmath,amsthm,amscd}
+\usepackage{hyperref,psfrag}
+%\usepackage{diagcat}
+\usepackage{color}
+\usepackage{etoolbox}
+
+\usepackage[dvips]{epsfig}
+
+\usepackage{psfrag}
+\def\drawing#1{\begin{center}\epsfig{file=#1}\end{center}}
+% including eps files
+
+\usepackage{graphicx}
+
+\usepackage{a4wide}
+\renewcommand*\rmdefault{ppl}\normalfont\upshape
+
+%\usepackage{fancyhdr}
+%\pagestyle{fancyplain}
+%\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+%\renewcommand{\subsectionmark}[1]{\markright{#1}}
+%\lhead[\fancyplain{}{\bfseries\thepage}]{\fancyplain{}{\sl\bfseries\rightmark}}
+%\rhead[\fancyplain{}{\sl\bfseries\leftmark}]{\fancyplain{}{\bfseries\thepage}}
+%\cfoot{}
+
+\hfuzz=6pc
+
+
+%------------------------------------------------------------------------------%
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lemma}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{conj}[thm]{Conjecture}
+
+\theoremstyle{definition}
+
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{eg}[thm]{Example}
+\newtheorem{rmk}[thm]{Remark}
+\newtheorem{ntn}[thm]{Notation}
+\newtheorem{ex}[thm]{Exercise}
+
+\usepackage{bbm}
+\def\1{\mathbbm 1}
+\def\R{\mathbb R}
+\def\Q{\mathbb Q}
+\def\Z{\mathbb Z}
+\def\N{\mathbb N}
+\def\C{\mathbb C}
+\def\F{\mathbb F}
+\def\P{\mathbb P}
+\def\o{\otimes}
+\def\lra{\longrightarrow}
+\def\zb{\overline{z}}
+\def\Arg{\mathrm{Arg}}
+\def\Log{\mathrm{Log}}
+
+\begin{document}
+\begin{center}
+{\Large \bf A Summary of Commonly Used Math Notations}
+\end{center}
+
+\begin{itemize}
+\item $\in$: This indicates an element belonging to a set. Example ``$5$ is a natural number'' can be written as $5\in \N$. Compare with the subset notation.
+\item $\subset$: This indicates the inclusion relation between sets. For instance, ``$\{1,2\}$ is a subset of $\{1,2,3,4\}$'' can be abbreviated as $\{1,2\}\subset \{1,2,3,4\}$. There are some variations of this notation, like $\supset$, $\subseteq$ (subset, may be equal), $\supseteq$, $\subsetneq$ (subset and not equal) $\supsetneq$. Notice, this is a relation between sets, while the notation $\in$ is between an element and a set. 
+\item $\forall$: This means ``for any'' or ``for all.'' Example: ``For any vector $v$ in a vector space $V$, a scalar multiple of it is still in the vector space" can be written as ``$\forall v\in V$, and $\forall c\in \F$, $cv\in \F$.''
+\item $\exists$: This means ``there exists." For example: ``For any $\epsilon>0$, there exists a $\delta>0$ such that..." can be written as ``$\forall \epsilon>0,~\exists \delta>0 s.t.~...$'' A negation of this symbol is $\nexists$, meaning "there does not exist."
+\item $\Rightarrow$ means the statement before the arrow implies the statement after the arrow. $\Leftrightarrow$ indicates the equivalence of statements.
+\item $\N$: the set of natural numbers $\N=\{0,1,2,3,4,\dots\}$. $\Z$: the set of integers. $\Q$: the set of rational numbers (this is the first example of a field). $\R$: the set of real numbers. $\C$: the set of complex numbers.
+\item $\sum$ and $\prod$: meaning taking sum/product of all terms behind the symbol satisfying some conditions. For instance, summing over all natural numbers from $0$ to $100$ can be written as
+    \[
+    0+1+\dots+100=\sum_{k=0}^{100} k.
+    \]
+\item Greek letters : $\alpha,\beta,\gamma,\delta,\epsilon,\zeta,\eta,\theta,\kappa,\lambda$ etc. Used as alternatives for English letters.
+\item $\cup$: union of sets $A\cup B=\{x|x\in A~\textrm{or}~x\in B\}$. 
+\item $\cap$: intersection of sets $A\cap B=\{x|x\in A~\textrm{and}~x\in B\}$.
+\end{itemize}
+
+\end{document} 

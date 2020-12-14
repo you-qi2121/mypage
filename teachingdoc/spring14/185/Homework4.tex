@@ -1,0 +1,85 @@
+\documentclass[11pt]{article}
+\usepackage[all,2cell]{xy} \UseAllTwocells \SilentMatrices
+\usepackage{latexsym,amsfonts,amssymb}
+\usepackage{amsmath,amsthm,amscd}
+\usepackage{hyperref,psfrag}
+%\usepackage{diagcat}
+\usepackage{color}
+\usepackage{etoolbox}
+
+\usepackage[dvips]{epsfig}
+
+\usepackage{psfrag}
+\def\drawing#1{\begin{center}\epsfig{file=#1}\end{center}}
+% including eps files
+
+\usepackage{graphicx}
+
+\usepackage{a4wide}
+\renewcommand*\rmdefault{ppl}\normalfont\upshape
+
+%\usepackage{fancyhdr}
+%\pagestyle{fancyplain}
+%\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+%\renewcommand{\subsectionmark}[1]{\markright{#1}}
+%\lhead[\fancyplain{}{\bfseries\thepage}]{\fancyplain{}{\sl\bfseries\rightmark}}
+%\rhead[\fancyplain{}{\sl\bfseries\leftmark}]{\fancyplain{}{\bfseries\thepage}}
+%\cfoot{}
+
+\hfuzz=6pc
+
+
+%------------------------------------------------------------------------------%
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lemma}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{conj}[thm]{Conjecture}
+
+\theoremstyle{definition}
+
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{eg}[thm]{Example}
+\newtheorem{rmk}[thm]{Remark}
+\newtheorem{ntn}[thm]{Notation}
+\newtheorem{ex}[thm]{Exercise}
+
+\usepackage{bbm}
+\def\1{\mathbbm 1}
+\def\R{\mathbb R}
+\def\Q{\mathbb Q}
+\def\Z{\mathbb Z}
+\def\N{\mathbb N}
+\def\C{\mathbb C}
+\def\F{\mathbb F}
+\def\P{\mathbb P}
+\def\o{\otimes}
+\def\lra{\longrightarrow}
+\def\zb{\overline{z}}
+\def\Arg{\mathrm{Arg}}
+\def\Log{\mathrm{Log}}
+
+\begin{document}
+\begin{center}
+{\Large \bf Exercises for Week 4}
+\end{center}
+The work handed in should be entirely your own. You can consult Gamelin and/or the class notes but nothing else. To receive full credit, justify your answer in a clear and logical way. Due Feb.~20.
+
+\paragraph{Reading.} Read Sections 2.3-2.5 of the textbook carefully (better before you attempt the homework problems). If you have forgotten about line integrals and Green's theorem, there is a nice summary in the textbook in Section 3.1. Alternatively, consult your calculus textbook.
+
+\begin{enumerate}
+\item Define the complex sine and cosine functions by
+\[
+\sin z :=\frac{e^{iz}-e^{-iz}}{2i}, \quad \cos z:=\frac{e^{iz}+e^{-iz}}{2}.
+\]
+(See the textbook 1.8 for more properties about them.) Identify their real and imaginary parts $u$ and $v$, and show that they are complex analytic by checking the Cauchy-Riemann equation hold for $u$ and $v$. Use our theorem to identify their complex derivative, and compare with the usual real case.
+
+\item Section II.3. Exercises 6, 8.
+
+\item Section II.4 Exercises 3, 7.
+
+\item Section II.5 Exercises 1 (a),  (d), 3, 5.
+
+\end{enumerate}
+\end{document} 

@@ -1,0 +1,69 @@
+\documentclass[12pt]{article}
+\title{}
+\date{}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,mathrsfs}
+\usepackage{times}
+%\usepackage{hyperref}
+%\usepackage{CJKutf8}
+\textwidth=16cm
+\textheight=23cm
+\voffset=-1.8cm
+\hoffset=-1.1cm
+%------------------------------------------------------------------------------%
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{Ex}{Example}
+\newtheorem*{ex}{Exercise}
+
+\newcommand{\ba}{\beta}
+\newcommand{\da}{\delta}
+\newcommand{\Da}{\Delta}
+\newcommand{\ta}{\theta}
+\newcommand{\Ta}{\Theta}
+\newcommand{\la}{\lambda}
+\newcommand{\Oa}{\Omega}
+\newcommand{\vphi}{\varphi}
+
+\newcommand{\pl}{\partial}
+\newcommand{\fc}{\frac}
+\newcommand{\na}{\nabla}
+\newcommand{\ol}{\overline}
+\newcommand{\lt}{\left}
+\newcommand{\rt}{\right}
+\newcommand{\rw}{\rightarrow}
+
+\newcommand{\mf}{\mathbf}
+\newcommand{\mb}{\mathbb}
+\newcommand{\ml}{\mathcal}
+
+\newcommand{\bs}{\boldsymbol}
+\newcommand{\wt}{\widetilde}
+
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+{\Large \bf Exercises for Week 3}
+\end{center}
+The work handed in should be entirely your own. You can consult Dummit and Foote, Artin and/or the class notes but nothing else. To receive full credit, justify your answer in a clear and logical way. Due Sept. 25.
+
+\paragraph{Reading.} With Dummit and Foote, please read Sections 0.3, 2.3 and the discussion near Proposition 4, Page 80. With Artin, please read Sections 2.4, 2.7, 2.8. If you are still not familiar with modular numbers, try more exercises from Section 2.8.
+
+\begin{enumerate}
+\item Using Euclidean algorithm, find a number $b\in \mathbb{Z}$ such that $\overline{b}\cdot \overline{20}=\overline{1}\in \mathbb{Z}/(13)$.
+\item In class we have shown that $\mathbb{Z}/(n)\backslash\{0\}$ is not a group if $n$ is not a prime, since it is not closed under multiplication. However it does contain a group under multiplication. Prove that the following subset
+    \[G=\{\overline{a}|\gcd(a, n)=1\}\subset \mathbb{Z}/(n)\backslash\{0\}\]
+    is a group. (Hint: use the same method as we did for $\mathbb{Z}/(p)\backslash\{0\}$.) The number of elements of this group is usually denoted $\phi(n)$, and it defines a function on $\mathbb{N}$, known as the Euler's $\phi$-function. Find $\phi(p)=?$.
+\item Find all subgroups of $\mathbb{Z}/(12)$.
+\item Compute the order of the elements in $\mathbb{Z}/(6)$: (a) $\overline{5}$, (b) $\overline{2}$, (c) $\overline{3}$.
+\item Why is $S_3$ not cyclic? What's the minimal number of elements needed to generate the whole group? Give an example of such a collection of generators.
+\item The elements of the quaternion group $G:=\{\pm 1, \pm i, \pm j, \pm k\}$ satisfies relations $i^2=j^2=k^2=-1$, $ij=k$, $jk=i$, and $ki=j$. Show that it is not abelian. Find out the left and right cosets of the following subgroups: (a) $K=\{\pm 1 \}$. (b) $H=\{\pm1, \pm i\}$.
+\item (You don't have to hand in this exercise) Convince yourself of the following fact. If $U$ is a real vector space with the usual vector addition structure, then it is an abelian group. Any subspace $V\subset U$ is a subgroup which is automatically also abelian. The space of cosets $U/V$ agrees with the usual quotient vector spaces, i.e.~the usual vector space axioms apply to the space $U/V$ of all cosets.
+\end{enumerate}
+\end{document} 

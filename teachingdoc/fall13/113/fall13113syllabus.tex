@@ -1,0 +1,144 @@
+\documentclass[margin,line]{res}
+\usepackage{url}
+
+\oddsidemargin -.5in \evensidemargin -.5in \textwidth=6.0in
+\itemsep=0in
+\parsep=0in
+
+\newenvironment{list1}{
+  \begin{list}{\ding{113}}{%
+      \setlength{\itemsep}{0in}
+      \setlength{\parsep}{0in} \setlength{\parskip}{0in}
+      \setlength{\topsep}{0in} \setlength{\partopsep}{0in}
+      \setlength{\leftmargin}{0.17in}}}{\end{list}}
+\newenvironment{list2}{
+  \begin{list}{$\bullet$}{%
+      \setlength{\itemsep}{0in}
+      \setlength{\parsep}{0in} \setlength{\parskip}{0in}
+      \setlength{\topsep}{0in} \setlength{\partopsep}{0in}
+      \setlength{\leftmargin}{0.2in}}}{\end{list}}
+
+
+\begin{document}
+
+\name{Syllabus of Introduction to Abstract Algebra \vspace*{.1in}}
+
+\begin{resume}
+
+\section{\sc Related Information}
+\vspace{.05in}
+\begin{tabular}{@{}p{3.4in}p{4in}}
+ Instructor: You Qi            &   \\
+Time: Every Mon. Wed. Fri. 9:00--10:00am & Venue: 102 Wurster\\
+Office: Room 849, Evans   & E-mail:  yq2121@berkeley.edu \\
+Office Hour: Mon. Wed. Fri. 10:30--11:30am & \\
+\end{tabular}
+Course webpage: \url{http://math.berkeley.edu/~yq2121/fall2013113.html}
+
+
+\section{\sc Textbook}
+We will not have a fixed book. But if you feel like buying one for collection, I would recommend
+\emph{Abstract Algebra, 3rd Edition}
+by D.~S.~Dummit and R.~M.~Foote, which contains a lot more material than that can be covered in a single course (which, of course, may be useful for research in the future if you are into that kind of nerdy stuff...). Another great reference is M.~Artin's algebra book, which is less dry than the above but contains less material.
+
+\section{\sc Schedule}
+Our basic goal is to cover some basic group theory, ring and module theory. This might be too ambitious a goal, but I believe this is something useful to learn. Of course we'll adjust the speed of teaching as we proceed along. Here is a tentative plan of the staff we'll cover.
+\begin{enumerate}
+\item Basic concepts of group theory: Associative laws. Groups, subgroups. Examples of groups. Equivalence relations. Cosets. Congruence numbers and cyclic groups. Group homomorphisms. Normal subgroups. Isomorphisms. Quotient groups. The correspondence theorem. Free groups. Generators and relations.
+\item Group actions and geometry: Isometries. Isometries of two-dimensional real space. Group actions on sets. Cayley's theorem. The counting formula. Actions on cosets. Class equations. Discrete subgroups of isometries. Dihedral groups. Finite subgroups of SO(3).
+
+\item Basic ring theory: Definition of a ring. Polynomial rings. Maps of rings and ideals. Quotient rings. Product rings. Principle ideal domains.
+\item Modules: Definitions. Submodules. Maps of modules. Quotient modules. Free modules and presentations. Applications of modules over PID. Introduction to representation theory.
+%\begin{list2}
+%\item Jan. 17, \S 1.1-\S 1.2,
+%\item Jan. 19, \S 1.3-\S 1.5,
+%\item Jan. 24, \S 1.6-\S 1.8,
+%\item Jan. 26, \S 1.10-\S 1.11, Quiz 1.
+%\end{list2}
+%\item Chapter 2 Functions (3 lectures).
+%\begin{list2}
+%\item Jan. 31, \S 2.1- \S 2.3,
+%\item Feb. 2, \S 2.4- \S 2.5,
+%\item Feb. 7, \S 2.6-\S 2.7, Quiz 2.
+%\end{list2}
+%\item Chapter 3 Polynomials and Rational Functions (4 lectures).
+%\begin{list2}
+%\item Feb. 9, \S 3.1-\S 3.2,
+%\item Feb. 14, \S 3.3-\S 3.4,
+%\item Feb. 16, \S 3.5-\S 3.6,
+%\item Feb. 21, \S 3.7, Quiz 3.
+%\end{list2}
+%\item Chapter 4 Exponentials and Logarithmic Functions (3 lectures).
+%\begin{list2}
+%\item Feb. 23, \S 4.1-\S 4.2,
+%\item Feb. 28, \S 4.3-\S 4.4,
+%\item Mar. 1, \S 4.5-\S 4.6, Quiz 4.
+%\end{list2}
+%\item Mar. 6, Review session.
+%\item Mar. 8, {\bf Mid-term}.
+%\item Mar. 12-16, Spring break.
+%\item Chapters 5-6 Trigonometric Functions (6 lectures)
+%\begin{list2}
+%\item Mar. 20, \S 5.1-\S 5.2,
+%\item Mar. 22, \S 5.3-\S 5.4,
+%\item Mar. 27, \S 5.5 \S 6.1,
+%\item Mar. 29, \S 6.2-\S 6.3,
+%\item Apr. 3, \S 6.4-\S 6.5,
+%\item Apr. 5, \S 6.6, Quiz 5.
+%\end{list2}
+%\item Chapter 7 Analytic Geometry (3 lectures)
+%\begin{list2}
+%\item Apr. 10, \S 7.1-\S 7.2,
+%\item Apr. 12, \S 7.3-\S 7.4,
+%\item Apr. 17, \S 7.5, Quiz 6.
+%\end{list2}
+%\item Chapter 8 Polar Coordinates and Parametric Equations (2 lectures)
+%\begin{itemize}
+%\item Apr. 24, \S 8.1-\S 8.2,
+%\item Apr. 26, \S 8.3-\S 8.4, Quiz 7.
+%\end{itemize}
+%\item Review session TBA.
+%\item {\bf Final} TBA.
+\end{enumerate}
+
+\section{\sc Advice}
+{\bf You are required to attend all the lectures}. Since our
+lectures do not follow any particular text book, and the
+schedule might change in occasion. As a general principle for
+taking math courses, \emph{take twice the amount of time of lectures
+to review what you learnt in class, and do a lot of exercises!} What
+we hope to achieve is not only the knowledge but also the ability
+to think logically and independently. Feel free to let me know if
+some points are unclear to you and ask for more explanations. Any
+suggestions about the teaching will be warmly welcomed.
+
+In case you have a conflict with any of the exams, please contact the
+instructor as soon as possible and at least two weeks before the
+exam. I will schedule a make up exam for you in my office.
+
+
+\section{\sc Assignments}
+Homeworks will be assigned every week, and should
+be turned in on Wednesdays before classes. No late homeworks will be considered.
+Quizzes and exams will be similar to the examples we
+do in class and exercises. As another general principle in math,
+\emph{practice makes perfect}.
+
+\section{\sc Grading}
+\begin{list2}
+\item Homeworks 5 \%
+\item Quizzes, 20 \%
+\item Mid-term, 35 \%
+\item Final, 40 \%
+\end{list2}
+
+%\section{\sc Academic Honesty} Any form of
+%cheating during midterm or final will result in you failing the
+%course and the matter being reported to your dean.
+
+\end{resume}
+
+\end{document}
+
+
+
